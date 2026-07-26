@@ -1,41 +1,4 @@
-# Binary outputs
-bin/
-dist/
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-
-# Test artifacts and coverage profiles
-*.test
-*.out
-*.prof
-*.coverprofile
-profile.cov
-
-# Dependency directories
-# Un-comment the line below if you choose to vendor your dependencies
-# vendor/
-
-# Go workspaces
-go.work
-go.work.sum
-
-# Environment secrets (Never commit these!)
-.env
-.env.*
-!.env.example
-
-# IDEs and Editors
-.idea/
-.vscode/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Operating System files
-.DS_Store
-Thumbs.db
+*.beam
+*.ez
+/build
+erl_crash.dump
