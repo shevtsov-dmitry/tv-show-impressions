@@ -1,0 +1,29 @@
+pub type Genre {
+  Drama
+  Melodrama
+  Comedy
+  Reality
+  Biographical
+  Detective
+  Sport
+  Thriller
+  Historical
+  Blockbuster
+  Animation
+  Fantastic
+  SciFi
+  Fantasy
+  Action
+  Adventure
+  Musical
+  Documentary
+  Crime
+  Mystery
+  Horror
+  ShortFilm
+  War
+  ForKids
+  Family
+  Politics
+  Western
+}
