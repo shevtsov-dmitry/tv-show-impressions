@@ -39,7 +39,6 @@
  */
 declare module '$env/static/private' {
 	export const SHELL: string;
-	export const npm_command: string;
 	export const LSCOLORS: string;
 	export const SESSION_MANAGER: string;
 	export const WINDOWID: string;
@@ -57,6 +56,7 @@ declare module '$env/static/private' {
 	export const NODE: string;
 	export const LC_ADDRESS: string;
 	export const LC_NAME: string;
+	export const SSH_AUTH_SOCK: string;
 	export const CINNAMON_VERSION: string;
 	export const npm_config_local_prefix: string;
 	export const XMODIFIERS: string;
@@ -86,16 +86,13 @@ declare module '$env/static/private' {
 	export const INIT_CWD: string;
 	export const CLUTTER_IM_MODULE: string;
 	export const SYSTEMD_EDITOR: string;
-	export const npm_lifecycle_script: string;
 	export const GJS_DEBUG_OUTPUT: string;
 	export const XDG_SESSION_CLASS: string;
 	export const TERM: string;
 	export const LC_IDENTIFICATION: string;
 	export const npm_package_name: string;
 	export const USER: string;
-	export const BUN_INTERNAL_BUNX_INSTALL: string;
 	export const DISPLAY: string;
-	export const npm_lifecycle_event: string;
 	export const SHLVL: string;
 	export const PAGER: string;
 	export const LC_TELEPHONE: string;
@@ -212,7 +209,6 @@ declare module '$env/static/public' {
 declare module '$env/dynamic/private' {
 	export const env: {
 		SHELL: string;
-		npm_command: string;
 		LSCOLORS: string;
 		SESSION_MANAGER: string;
 		WINDOWID: string;
@@ -230,6 +226,7 @@ declare module '$env/dynamic/private' {
 		NODE: string;
 		LC_ADDRESS: string;
 		LC_NAME: string;
+		SSH_AUTH_SOCK: string;
 		CINNAMON_VERSION: string;
 		npm_config_local_prefix: string;
 		XMODIFIERS: string;
@@ -259,16 +256,13 @@ declare module '$env/dynamic/private' {
 		INIT_CWD: string;
 		CLUTTER_IM_MODULE: string;
 		SYSTEMD_EDITOR: string;
-		npm_lifecycle_script: string;
 		GJS_DEBUG_OUTPUT: string;
 		XDG_SESSION_CLASS: string;
 		TERM: string;
 		LC_IDENTIFICATION: string;
 		npm_package_name: string;
 		USER: string;
-		BUN_INTERNAL_BUNX_INSTALL: string;
 		DISPLAY: string;
-		npm_lifecycle_event: string;
 		SHLVL: string;
 		PAGER: string;
 		LC_TELEPHONE: string;
