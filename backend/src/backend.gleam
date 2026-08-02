@@ -41,7 +41,6 @@ pub fn main() -> Nil {
   let assert Ok(authors) = pog_adapter.list_authors(single_con)
 
   echo authors
-
   Nil
 }
 
