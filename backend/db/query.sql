@@ -1,36 +1,36 @@
--- name: InitFillMoodState: exec
-INSERT INTO mood (language_code, state) VALUES
-('en', 'depressing'),
-('ru', 'депрессивное'),
-('en', 'warm'),
-('ru', 'теплое'),
-('en', 'hopeful'),
-('ru', 'взывающее надежду'),
-('en', 'bleak'),
-('ru', 'светлое'),
-('en', 'dark'),
-('ru', 'темное'),
-('en', 'cozy'),
-('ru', 'уютное'),
-('en', 'existential'),
-('ru', 'экзистенциальное'),
-('en', 'melancholic'),
-('ru', 'меланхоличное');
+-- name: InitFillMoodStates: exec
+INSERT INTO mood (language_code, state, displayed_by_default) VALUES
+('en', 'depressing',true),
+('ru', 'депрессивное', true),
+('en', 'warm', true),
+('ru', 'теплое', true),
+('en', 'hopeful', true),
+('ru', 'взывающее надежду', true),
+('en', 'bleak', true),
+('ru', 'светлое', true),
+('en', 'dark', true),
+('ru', 'темное', true),
+('en', 'cozy', true),
+('ru', 'уютное', true),
+('en', 'existential', true),
+('ru', 'экзистенциальное', true),
+('en', 'melancholic', true),
+('ru', 'меланхоличное', true);
 
--- name: InitFillExpectationsState: exec
-INSERT INTO expectations(language_code, state) VALUES
-('en', 'masterpiece'),
-('ru', 'шедевр'),
-('en', 'philosophical message'),
-('ru', 'философская мысль'),
-('en', 'generic'),
-('ru', 'посредственность'),
-('en', 'entertainment'),
-('ru', 'развлекалово'),
-('en', 'trash'),
-('ru', 'хлам');
+-- name: InitFillExpectationStates: exec
+INSERT INTO expectations(language_code, state, displayed_by_default) VALUES
+('en', 'masterpiece', true),
+('ru', 'шедевр', true),
+('en', 'philosophical message', true),
+('ru', 'философская мысль', true),
+('en', 'generic', true),
+('ru', 'посредственность', true),
+('en', 'entertainment', true),
+('ru', 'развлекалово', true),
+('en', 'trash', true),
+('ru', 'хлам', true);
 
--- name: InitFillGenreState: exec
+-- name: InitFillGenreNames: exec
 INSERT INTO genre (language_code, name) VALUES
 ('en', 'Drama'),
 ('ru', 'Драма'),
@@ -85,7 +85,7 @@ INSERT INTO genre (language_code, name) VALUES
 ('en', 'Western'),
 ('ru', 'Вестерн');
 
--- name: InitTvShowFormatState: exec
+-- name: InitTvShowFormatNames: exec
 INSERT INTO format (language_code, name) VALUES
 ('en', 'Movie'),
 ('ru', 'Фильм'),
@@ -95,3 +95,82 @@ INSERT INTO format (language_code, name) VALUES
 ('ru', 'Аниме'),
 ('en', 'Book'),
 ('ru', 'Книга');
+
+-- name: InitImpressionsNames: exec
+INSERT INTO impressions (language_code, order, name) VALUES
+('en',10 ,'masterpiece'),
+('ru', 10,'шедевр'),
+('en', 9,'excellent'),
+('ru', 9, 'восхитительно'),
+('en', 8, 'surprisingly good'),
+('ru', 8,'удивительно годно'),
+('en', 6,'average'),
+('ru', 6,'средняк'),
+('en', 4,'generic'),
+('ru', 4,'посредственность'),
+('en', 1,'terrible'),
+('ru', 1,'ужасное');
+
+-- name: InitStrengthsNames: exec
+INSERT INTO strengths (language_code, name, displayed_by_default) VALUES
+('en','atmosphere', true),
+('ru', 'атмосфера', true),
+('en','retention', true),
+('ru', 'Зрительское удержание', true),
+('en','soundtrack', true),
+('ru', 'музыкальное сопровождение', true),
+('en','realism', true),
+('ru', 'реалистичность', true),
+('en','symbolism', true),
+('ru', 'символизм', true),
+('en','acting', true),
+('ru', 'актерская игра', true);
+
+
+-- name: InitAnnoyancesNames: exec
+INSERT INTO annoyances (language_code, name, displayed_by_default)  VALUES
+('en','plot holes', true),
+('ru', 'дыры в сюжете', true),
+('en', 'political propaganda', true),
+('ru', 'политическая пропаганда', true),
+('en', 'unrealistic dialogue', true),
+('ru', 'неосмысленный диалог', true),
+('en','plot armor', true),
+('ru', 'сюжетная броня', true),
+('en','stupid characters', true),
+('ru', 'глупые персонажи', true),
+('en','forced romance', true),
+('ru', 'навязанная романтика', true),
+('en','bad humor', true),
+('ru','плохой юмор', true);
+
+-- name: InitSettingNames: exec
+INSERT INTO setting (language_code, name, displayed_by_default) VALUES
+('en', 'steampunk', true),
+('ru', 'стим-панк', true),
+('en', 'cyberpunk', true),
+('ru', 'киберпанк', true),
+('en', 'medieval', true),
+('ru', 'средневековье', true),
+('en', 'NASApunk', true),
+('ru', 'НАСА-панк', true),
+('en', 'post-apocalyptic', true),
+('ru', 'постапокалипсис', true),
+('en', 'space opera', false),
+('ru', 'космическая опера', false),
+('en', 'ancient world', true),
+('ru', 'древний мир', true),
+('en', 'dystopia', true),
+('ru', 'антиутопия', true),
+('en', 'alternate history', false),
+('ru', 'альтернативная история', false),
+('en', 'magic realism', false),
+('ru', 'магический реализм',false),
+('en', 'western', true),
+('ru', 'вестерн', true),
+('en', 'lovecraftian', false),
+('ru', 'лавкрафтовские ужасы', false),
+('en', 'mythology', false),
+('ru', 'мифология', false),
+('en', 'urban fantasy', false),
+('ru', 'городское фэнтези', false);
