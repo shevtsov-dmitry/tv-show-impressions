@@ -11,42 +11,84 @@ import sqlode/runtime
 pub fn all() -> List(runtime.QueryInfo) {
   [
     runtime.QueryInfo(
-      name: "GetAuthor",
-      sql: "select id, name, bio from authors where id = $1;",
-      command: runtime.One,
-      param_count: 1,
-    ),
-    runtime.QueryInfo(
-      name: "ListAuthors",
-      sql: "select id, name from authors order by name;",
+      name: "GetAllGenres",
+      sql: "select* from genre;",
       command: runtime.Many,
       param_count: 0,
     ),
     runtime.QueryInfo(
-      name: "CreateAuthor",
-      sql: "insert into authors(name, bio) values($1, $2);",
+      name: "GetAllShowFormats",
+      sql: "select* from format;",
+      command: runtime.Many,
+      param_count: 0,
+    ),
+    runtime.QueryInfo(
+      name: "GetAllDefaultMood",
+      sql: "select* from mood where displayed_by_default = true;",
+      command: runtime.Many,
+      param_count: 0,
+    ),
+    runtime.QueryInfo(
+      name: "GetAllDefaultExpectations",
+      sql: "select* from expectations where displayed_by_default = true;",
+      command: runtime.Many,
+      param_count: 0,
+    ),
+    runtime.QueryInfo(
+      name: "GetAllDefaultImpressions",
+      sql: "select* from impressions where displayed_by_default = true;",
+      command: runtime.Many,
+      param_count: 0,
+    ),
+    runtime.QueryInfo(
+      name: "GetAllDefaultStrengths",
+      sql: "select* from strengths where displayed_by_default = true;",
+      command: runtime.Many,
+      param_count: 0,
+    ),
+    runtime.QueryInfo(
+      name: "GetSpecificStrength",
+      sql: "select* from strengths where name = $1;",
+      command: runtime.One,
+      param_count: 1,
+    ),
+    runtime.QueryInfo(
+      name: "GetSpecificAnnoyances",
+      sql: "select* from annoyances where name = $1;",
+      command: runtime.One,
+      param_count: 1,
+    ),
+    runtime.QueryInfo(
+      name: "GetAllDefaultAnnoyances",
+      sql: "select* from annoyances where displayed_by_default = true;",
+      command: runtime.Many,
+      param_count: 0,
+    ),
+    runtime.QueryInfo(
+      name: "GetAllDefaultShowSetting",
+      sql: "select* from setting where displayed_by_default = true;",
+      command: runtime.Many,
+      param_count: 0,
+    ),
+    runtime.QueryInfo(
+      name: "GetUserAccountIdByEmail",
+      sql: "select id from user_account where email = $1;",
+      command: runtime.One,
+      param_count: 1,
+    ),
+    runtime.QueryInfo(
+      name: "AddTvShow",
+      sql: "",
       command: runtime.Exec,
-      param_count: 2,
+      param_count: 0,
     ),
   ]
 }
 
-pub fn get_author() -> runtime.RawQuery(params.GetAuthorParams) {
+pub fn get_all_genres() -> runtime.RawQuery(Nil) {
   runtime.RawQuery(
-    name: "GetAuthor",
-    sql: "select id, name, bio from authors where id = $1;",
-    command: runtime.One,
-    param_count: 1,
-    placeholder_style: runtime.DollarNumbered,
-    encode: params.get_author_values,
-    slice_info: fn(_) { [] },
-  )
-}
-
-pub fn list_authors() -> runtime.RawQuery(Nil) {
-  runtime.RawQuery(
-    name: "ListAuthors",
-    sql: "select id, name from authors order by name;",
+    name: "GetAllGenres",
+    sql: "select* from genre;",
     command: runtime.Many,
     param_count: 0,
     placeholder_style: runtime.DollarNumbered,
@@ -55,45 +97,344 @@ pub fn list_authors() -> runtime.RawQuery(Nil) {
   )
 }
 
-pub fn create_author() -> runtime.RawQuery(params.CreateAuthorParams) {
+pub fn get_all_show_formats() -> runtime.RawQuery(Nil) {
   runtime.RawQuery(
-    name: "CreateAuthor",
-    sql: "insert into authors(name, bio) values(__sqlode_param_1__, __sqlode_param_2__);",
-    command: runtime.Exec,
-    param_count: 2,
+    name: "GetAllShowFormats",
+    sql: "select* from format;",
+    command: runtime.Many,
+    param_count: 0,
     placeholder_style: runtime.DollarNumbered,
-    encode: params.create_author_values,
+    encode: fn(_) { [] },
     slice_info: fn(_) { [] },
   )
 }
 
-pub fn prepare_get_author(id id: Int) -> #(String, List(runtime.Value)) {
-  runtime.prepare(get_author(), params.GetAuthorParams(id: id))
-}
-
-pub fn prepare_list_authors() -> #(String, List(runtime.Value)) {
-  runtime.prepare(list_authors(), Nil)
-}
-
-pub fn prepare_create_author(
-  author_name author_name: String,
-  bio bio: Option(String),
-) -> #(String, List(runtime.Value)) {
-  runtime.prepare(
-    create_author(),
-    params.CreateAuthorParams(author_name: author_name, bio: bio),
+pub fn get_all_default_mood() -> runtime.RawQuery(Nil) {
+  runtime.RawQuery(
+    name: "GetAllDefaultMood",
+    sql: "select* from mood where displayed_by_default = true;",
+    command: runtime.Many,
+    param_count: 0,
+    placeholder_style: runtime.DollarNumbered,
+    encode: fn(_) { [] },
+    slice_info: fn(_) { [] },
   )
 }
 
-pub fn get_author_decoder() -> decode.Decoder(models.GetAuthorRow) {
-  use id <- decode.field(0, decode.int)
-  use name <- decode.field(1, decode.string)
-  use bio <- decode.field(2, decode.optional(decode.string))
-  decode.success(models.GetAuthorRow(id:, name:, bio:))
+pub fn get_all_default_expectations() -> runtime.RawQuery(Nil) {
+  runtime.RawQuery(
+    name: "GetAllDefaultExpectations",
+    sql: "select* from expectations where displayed_by_default = true;",
+    command: runtime.Many,
+    param_count: 0,
+    placeholder_style: runtime.DollarNumbered,
+    encode: fn(_) { [] },
+    slice_info: fn(_) { [] },
+  )
 }
 
-pub fn list_authors_decoder() -> decode.Decoder(models.ListAuthorsRow) {
+pub fn get_all_default_impressions() -> runtime.RawQuery(Nil) {
+  runtime.RawQuery(
+    name: "GetAllDefaultImpressions",
+    sql: "select* from impressions where displayed_by_default = true;",
+    command: runtime.Many,
+    param_count: 0,
+    placeholder_style: runtime.DollarNumbered,
+    encode: fn(_) { [] },
+    slice_info: fn(_) { [] },
+  )
+}
+
+pub fn get_all_default_strengths() -> runtime.RawQuery(Nil) {
+  runtime.RawQuery(
+    name: "GetAllDefaultStrengths",
+    sql: "select* from strengths where displayed_by_default = true;",
+    command: runtime.Many,
+    param_count: 0,
+    placeholder_style: runtime.DollarNumbered,
+    encode: fn(_) { [] },
+    slice_info: fn(_) { [] },
+  )
+}
+
+pub fn get_specific_strength() -> runtime.RawQuery(
+  params.GetSpecificStrengthParams,
+) {
+  runtime.RawQuery(
+    name: "GetSpecificStrength",
+    sql: "select* from strengths where name = $1;",
+    command: runtime.One,
+    param_count: 1,
+    placeholder_style: runtime.DollarNumbered,
+    encode: params.get_specific_strength_values,
+    slice_info: fn(_) { [] },
+  )
+}
+
+pub fn get_specific_annoyances() -> runtime.RawQuery(
+  params.GetSpecificAnnoyancesParams,
+) {
+  runtime.RawQuery(
+    name: "GetSpecificAnnoyances",
+    sql: "select* from annoyances where name = $1;",
+    command: runtime.One,
+    param_count: 1,
+    placeholder_style: runtime.DollarNumbered,
+    encode: params.get_specific_annoyances_values,
+    slice_info: fn(_) { [] },
+  )
+}
+
+pub fn get_all_default_annoyances() -> runtime.RawQuery(Nil) {
+  runtime.RawQuery(
+    name: "GetAllDefaultAnnoyances",
+    sql: "select* from annoyances where displayed_by_default = true;",
+    command: runtime.Many,
+    param_count: 0,
+    placeholder_style: runtime.DollarNumbered,
+    encode: fn(_) { [] },
+    slice_info: fn(_) { [] },
+  )
+}
+
+pub fn get_all_default_show_setting() -> runtime.RawQuery(Nil) {
+  runtime.RawQuery(
+    name: "GetAllDefaultShowSetting",
+    sql: "select* from setting where displayed_by_default = true;",
+    command: runtime.Many,
+    param_count: 0,
+    placeholder_style: runtime.DollarNumbered,
+    encode: fn(_) { [] },
+    slice_info: fn(_) { [] },
+  )
+}
+
+pub fn get_user_account_id_by_email() -> runtime.RawQuery(
+  params.GetUserAccountIdByEmailParams,
+) {
+  runtime.RawQuery(
+    name: "GetUserAccountIdByEmail",
+    sql: "select id from user_account where email = $1;",
+    command: runtime.One,
+    param_count: 1,
+    placeholder_style: runtime.DollarNumbered,
+    encode: params.get_user_account_id_by_email_values,
+    slice_info: fn(_) { [] },
+  )
+}
+
+pub fn add_tv_show() -> runtime.RawQuery(Nil) {
+  runtime.RawQuery(
+    name: "AddTvShow",
+    sql: "",
+    command: runtime.Exec,
+    param_count: 0,
+    placeholder_style: runtime.DollarNumbered,
+    encode: fn(_) { [] },
+    slice_info: fn(_) { [] },
+  )
+}
+
+pub fn prepare_get_all_genres() -> #(String, List(runtime.Value)) {
+  runtime.prepare(get_all_genres(), Nil)
+}
+
+pub fn prepare_get_all_show_formats() -> #(String, List(runtime.Value)) {
+  runtime.prepare(get_all_show_formats(), Nil)
+}
+
+pub fn prepare_get_all_default_mood() -> #(String, List(runtime.Value)) {
+  runtime.prepare(get_all_default_mood(), Nil)
+}
+
+pub fn prepare_get_all_default_expectations() -> #(String, List(runtime.Value)) {
+  runtime.prepare(get_all_default_expectations(), Nil)
+}
+
+pub fn prepare_get_all_default_impressions() -> #(String, List(runtime.Value)) {
+  runtime.prepare(get_all_default_impressions(), Nil)
+}
+
+pub fn prepare_get_all_default_strengths() -> #(String, List(runtime.Value)) {
+  runtime.prepare(get_all_default_strengths(), Nil)
+}
+
+pub fn prepare_get_specific_strength(
+  name name: String,
+) -> #(String, List(runtime.Value)) {
+  runtime.prepare(
+    get_specific_strength(),
+    params.GetSpecificStrengthParams(name: name),
+  )
+}
+
+pub fn prepare_get_specific_annoyances(
+  name name: String,
+) -> #(String, List(runtime.Value)) {
+  runtime.prepare(
+    get_specific_annoyances(),
+    params.GetSpecificAnnoyancesParams(name: name),
+  )
+}
+
+pub fn prepare_get_all_default_annoyances() -> #(String, List(runtime.Value)) {
+  runtime.prepare(get_all_default_annoyances(), Nil)
+}
+
+pub fn prepare_get_all_default_show_setting() -> #(String, List(runtime.Value)) {
+  runtime.prepare(get_all_default_show_setting(), Nil)
+}
+
+pub fn prepare_get_user_account_id_by_email(
+  email email: String,
+) -> #(String, List(runtime.Value)) {
+  runtime.prepare(
+    get_user_account_id_by_email(),
+    params.GetUserAccountIdByEmailParams(email: email),
+  )
+}
+
+pub fn prepare_add_tv_show() -> #(String, List(runtime.Value)) {
+  runtime.prepare(add_tv_show(), Nil)
+}
+
+pub fn get_all_genres_decoder() -> decode.Decoder(models.GetAllGenresRow) {
   use id <- decode.field(0, decode.int)
-  use name <- decode.field(1, decode.string)
-  decode.success(models.ListAuthorsRow(id:, name:))
+  use language_code <- decode.field(1, decode.string)
+  use name <- decode.field(2, decode.string)
+  use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+  decode.success(models.Genre(id:, language_code:, name:, displayed_by_default:))
+}
+
+pub fn get_all_show_formats_decoder() -> decode.Decoder(
+  models.GetAllShowFormatsRow,
+) {
+  use id <- decode.field(0, decode.int)
+  use language_code <- decode.field(1, decode.string)
+  use name <- decode.field(2, decode.string)
+  decode.success(models.Format(id:, language_code:, name:))
+}
+
+pub fn get_all_default_mood_decoder() -> decode.Decoder(
+  models.GetAllDefaultMoodRow,
+) {
+  use id <- decode.field(0, decode.int)
+  use language_code <- decode.field(1, decode.string)
+  use state <- decode.field(2, decode.string)
+  use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+  decode.success(models.Mood(id:, language_code:, state:, displayed_by_default:))
+}
+
+pub fn get_all_default_expectations_decoder() -> decode.Decoder(
+  models.GetAllDefaultExpectationsRow,
+) {
+  use id <- decode.field(0, decode.int)
+  use language_code <- decode.field(1, decode.string)
+  use state <- decode.field(2, decode.string)
+  use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+  decode.success(models.Expectation(
+    id:,
+    language_code:,
+    state:,
+    displayed_by_default:,
+  ))
+}
+
+pub fn get_all_default_impressions_decoder() -> decode.Decoder(
+  models.GetAllDefaultImpressionsRow,
+) {
+  use id <- decode.field(0, decode.int)
+  use language_code <- decode.field(1, decode.string)
+  use state <- decode.field(2, decode.string)
+  use order_number <- decode.field(3, decode.int)
+  use displayed_by_default <- decode.field(4, decode.optional(decode.bool))
+  decode.success(models.Impression(
+    id:,
+    language_code:,
+    state:,
+    order_number:,
+    displayed_by_default:,
+  ))
+}
+
+pub fn get_all_default_strengths_decoder() -> decode.Decoder(
+  models.GetAllDefaultStrengthsRow,
+) {
+  use id <- decode.field(0, decode.int)
+  use language_code <- decode.field(1, decode.string)
+  use name <- decode.field(2, decode.string)
+  use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+  decode.success(models.Strength(
+    id:,
+    language_code:,
+    name:,
+    displayed_by_default:,
+  ))
+}
+
+pub fn get_specific_strength_decoder() -> decode.Decoder(
+  models.GetSpecificStrengthRow,
+) {
+  use id <- decode.field(0, decode.int)
+  use language_code <- decode.field(1, decode.string)
+  use name <- decode.field(2, decode.string)
+  use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+  decode.success(models.Strength(
+    id:,
+    language_code:,
+    name:,
+    displayed_by_default:,
+  ))
+}
+
+pub fn get_specific_annoyances_decoder() -> decode.Decoder(
+  models.GetSpecificAnnoyancesRow,
+) {
+  use id <- decode.field(0, decode.int)
+  use language_code <- decode.field(1, decode.string)
+  use name <- decode.field(2, decode.string)
+  use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+  decode.success(models.Annoyance(
+    id:,
+    language_code:,
+    name:,
+    displayed_by_default:,
+  ))
+}
+
+pub fn get_all_default_annoyances_decoder() -> decode.Decoder(
+  models.GetAllDefaultAnnoyancesRow,
+) {
+  use id <- decode.field(0, decode.int)
+  use language_code <- decode.field(1, decode.string)
+  use name <- decode.field(2, decode.string)
+  use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+  decode.success(models.Annoyance(
+    id:,
+    language_code:,
+    name:,
+    displayed_by_default:,
+  ))
+}
+
+pub fn get_all_default_show_setting_decoder() -> decode.Decoder(
+  models.GetAllDefaultShowSettingRow,
+) {
+  use id <- decode.field(0, decode.int)
+  use language_code <- decode.field(1, decode.string)
+  use name <- decode.field(2, decode.string)
+  use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+  decode.success(models.Setting(
+    id:,
+    language_code:,
+    name:,
+    displayed_by_default:,
+  ))
+}
+
+pub fn get_user_account_id_by_email_decoder() -> decode.Decoder(
+  models.GetUserAccountIdByEmailRow,
+) {
+  use id <- decode.field(0, decode.int)
+  decode.success(models.GetUserAccountIdByEmailRow(id:))
 }

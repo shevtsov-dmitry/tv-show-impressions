@@ -22,11 +22,139 @@ fn value_to_pog(value: runtime.Value) -> pog.Value {
   }
 }
 
-pub fn get_author(
+pub fn get_all_genres(
   db: pog.Connection,
-  p: params.GetAuthorParams,
-) -> Result(Option(models.GetAuthorRow), pog.QueryError) {
-  let q = queries.get_author()
+) -> Result(List(models.GetAllGenresRow), pog.QueryError) {
+  let q = queries.get_all_genres()
+  let #(sql, _values) = runtime.prepare(q, Nil)
+  pog.query(sql)
+  |> pog.returning({
+    use id <- decode.field(0, decode.int)
+    use language_code <- decode.field(1, decode.string)
+    use name <- decode.field(2, decode.string)
+    use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+    decode.success(models.Genre(
+      id:,
+      language_code:,
+      name:,
+      displayed_by_default:,
+    ))
+  })
+  |> pog.execute(db)
+  |> result.map(fn(returned) { returned.rows })
+}
+
+pub fn get_all_show_formats(
+  db: pog.Connection,
+) -> Result(List(models.GetAllShowFormatsRow), pog.QueryError) {
+  let q = queries.get_all_show_formats()
+  let #(sql, _values) = runtime.prepare(q, Nil)
+  pog.query(sql)
+  |> pog.returning({
+    use id <- decode.field(0, decode.int)
+    use language_code <- decode.field(1, decode.string)
+    use name <- decode.field(2, decode.string)
+    decode.success(models.Format(id:, language_code:, name:))
+  })
+  |> pog.execute(db)
+  |> result.map(fn(returned) { returned.rows })
+}
+
+pub fn get_all_default_mood(
+  db: pog.Connection,
+) -> Result(List(models.GetAllDefaultMoodRow), pog.QueryError) {
+  let q = queries.get_all_default_mood()
+  let #(sql, _values) = runtime.prepare(q, Nil)
+  pog.query(sql)
+  |> pog.returning({
+    use id <- decode.field(0, decode.int)
+    use language_code <- decode.field(1, decode.string)
+    use state <- decode.field(2, decode.string)
+    use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+    decode.success(models.Mood(
+      id:,
+      language_code:,
+      state:,
+      displayed_by_default:,
+    ))
+  })
+  |> pog.execute(db)
+  |> result.map(fn(returned) { returned.rows })
+}
+
+pub fn get_all_default_expectations(
+  db: pog.Connection,
+) -> Result(List(models.GetAllDefaultExpectationsRow), pog.QueryError) {
+  let q = queries.get_all_default_expectations()
+  let #(sql, _values) = runtime.prepare(q, Nil)
+  pog.query(sql)
+  |> pog.returning({
+    use id <- decode.field(0, decode.int)
+    use language_code <- decode.field(1, decode.string)
+    use state <- decode.field(2, decode.string)
+    use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+    decode.success(models.Expectation(
+      id:,
+      language_code:,
+      state:,
+      displayed_by_default:,
+    ))
+  })
+  |> pog.execute(db)
+  |> result.map(fn(returned) { returned.rows })
+}
+
+pub fn get_all_default_impressions(
+  db: pog.Connection,
+) -> Result(List(models.GetAllDefaultImpressionsRow), pog.QueryError) {
+  let q = queries.get_all_default_impressions()
+  let #(sql, _values) = runtime.prepare(q, Nil)
+  pog.query(sql)
+  |> pog.returning({
+    use id <- decode.field(0, decode.int)
+    use language_code <- decode.field(1, decode.string)
+    use state <- decode.field(2, decode.string)
+    use order_number <- decode.field(3, decode.int)
+    use displayed_by_default <- decode.field(4, decode.optional(decode.bool))
+    decode.success(models.Impression(
+      id:,
+      language_code:,
+      state:,
+      order_number:,
+      displayed_by_default:,
+    ))
+  })
+  |> pog.execute(db)
+  |> result.map(fn(returned) { returned.rows })
+}
+
+pub fn get_all_default_strengths(
+  db: pog.Connection,
+) -> Result(List(models.GetAllDefaultStrengthsRow), pog.QueryError) {
+  let q = queries.get_all_default_strengths()
+  let #(sql, _values) = runtime.prepare(q, Nil)
+  pog.query(sql)
+  |> pog.returning({
+    use id <- decode.field(0, decode.int)
+    use language_code <- decode.field(1, decode.string)
+    use name <- decode.field(2, decode.string)
+    use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+    decode.success(models.Strength(
+      id:,
+      language_code:,
+      name:,
+      displayed_by_default:,
+    ))
+  })
+  |> pog.execute(db)
+  |> result.map(fn(returned) { returned.rows })
+}
+
+pub fn get_specific_strength(
+  db: pog.Connection,
+  p: params.GetSpecificStrengthParams,
+) -> Result(Option(models.GetSpecificStrengthRow), pog.QueryError) {
+  let q = queries.get_specific_strength()
   let #(sql, values) = runtime.prepare(q, p)
   let query = pog.query(sql)
   let query =
@@ -34,9 +162,15 @@ pub fn get_author(
   query
   |> pog.returning({
     use id <- decode.field(0, decode.int)
-    use name <- decode.field(1, decode.string)
-    use bio <- decode.field(2, decode.optional(decode.string))
-    decode.success(models.GetAuthorRow(id:, name:, bio:))
+    use language_code <- decode.field(1, decode.string)
+    use name <- decode.field(2, decode.string)
+    use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+    decode.success(models.Strength(
+      id:,
+      language_code:,
+      name:,
+      displayed_by_default:,
+    ))
   })
   |> pog.execute(db)
   |> result.map(fn(returned) {
@@ -47,31 +181,108 @@ pub fn get_author(
   })
 }
 
-pub fn list_authors(
+pub fn get_specific_annoyances(
   db: pog.Connection,
-) -> Result(List(models.ListAuthorsRow), pog.QueryError) {
-  let q = queries.list_authors()
-  let #(sql, _values) = runtime.prepare(q, Nil)
-  pog.query(sql)
-  |> pog.returning({
-    use id <- decode.field(0, decode.int)
-    use name <- decode.field(1, decode.string)
-    decode.success(models.ListAuthorsRow(id:, name:))
-  })
-  |> pog.execute(db)
-  |> result.map(fn(returned) { returned.rows })
-}
-
-pub fn create_author(
-  db: pog.Connection,
-  p: params.CreateAuthorParams,
-) -> Result(Nil, pog.QueryError) {
-  let q = queries.create_author()
+  p: params.GetSpecificAnnoyancesParams,
+) -> Result(Option(models.GetSpecificAnnoyancesRow), pog.QueryError) {
+  let q = queries.get_specific_annoyances()
   let #(sql, values) = runtime.prepare(q, p)
   let query = pog.query(sql)
   let query =
     list.fold(values, query, fn(acc, v) { pog.parameter(acc, value_to_pog(v)) })
   query
+  |> pog.returning({
+    use id <- decode.field(0, decode.int)
+    use language_code <- decode.field(1, decode.string)
+    use name <- decode.field(2, decode.string)
+    use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+    decode.success(models.Annoyance(
+      id:,
+      language_code:,
+      name:,
+      displayed_by_default:,
+    ))
+  })
+  |> pog.execute(db)
+  |> result.map(fn(returned) {
+    case returned.rows {
+      [row, ..] -> Some(row)
+      [] -> None
+    }
+  })
+}
+
+pub fn get_all_default_annoyances(
+  db: pog.Connection,
+) -> Result(List(models.GetAllDefaultAnnoyancesRow), pog.QueryError) {
+  let q = queries.get_all_default_annoyances()
+  let #(sql, _values) = runtime.prepare(q, Nil)
+  pog.query(sql)
+  |> pog.returning({
+    use id <- decode.field(0, decode.int)
+    use language_code <- decode.field(1, decode.string)
+    use name <- decode.field(2, decode.string)
+    use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+    decode.success(models.Annoyance(
+      id:,
+      language_code:,
+      name:,
+      displayed_by_default:,
+    ))
+  })
+  |> pog.execute(db)
+  |> result.map(fn(returned) { returned.rows })
+}
+
+pub fn get_all_default_show_setting(
+  db: pog.Connection,
+) -> Result(List(models.GetAllDefaultShowSettingRow), pog.QueryError) {
+  let q = queries.get_all_default_show_setting()
+  let #(sql, _values) = runtime.prepare(q, Nil)
+  pog.query(sql)
+  |> pog.returning({
+    use id <- decode.field(0, decode.int)
+    use language_code <- decode.field(1, decode.string)
+    use name <- decode.field(2, decode.string)
+    use displayed_by_default <- decode.field(3, decode.optional(decode.bool))
+    decode.success(models.Setting(
+      id:,
+      language_code:,
+      name:,
+      displayed_by_default:,
+    ))
+  })
+  |> pog.execute(db)
+  |> result.map(fn(returned) { returned.rows })
+}
+
+pub fn get_user_account_id_by_email(
+  db: pog.Connection,
+  p: params.GetUserAccountIdByEmailParams,
+) -> Result(Option(models.GetUserAccountIdByEmailRow), pog.QueryError) {
+  let q = queries.get_user_account_id_by_email()
+  let #(sql, values) = runtime.prepare(q, p)
+  let query = pog.query(sql)
+  let query =
+    list.fold(values, query, fn(acc, v) { pog.parameter(acc, value_to_pog(v)) })
+  query
+  |> pog.returning({
+    use id <- decode.field(0, decode.int)
+    decode.success(models.GetUserAccountIdByEmailRow(id:))
+  })
+  |> pog.execute(db)
+  |> result.map(fn(returned) {
+    case returned.rows {
+      [row, ..] -> Some(row)
+      [] -> None
+    }
+  })
+}
+
+pub fn add_tv_show(db: pog.Connection) -> Result(Nil, pog.QueryError) {
+  let q = queries.add_tv_show()
+  let #(sql, _values) = runtime.prepare(q, Nil)
+  pog.query(sql)
   |> pog.returning(decode.success(Nil))
   |> pog.execute(db)
   |> result.map(fn(_) { Nil })
