@@ -1,13 +1,97 @@
--- name: GetAuthor :one
-SELECT id, name, bio
-FROM authors
-WHERE id = $1;
+-- name: InitFillMoodState: exec
+INSERT INTO mood (language_code, state) VALUES
+('en', 'depressing'),
+('ru', 'депрессивное'),
+('en', 'warm'),
+('ru', 'теплое'),
+('en', 'hopeful'),
+('ru', 'взывающее надежду'),
+('en', 'bleak'),
+('ru', 'светлое'),
+('en', 'dark'),
+('ru', 'темное'),
+('en', 'cozy'),
+('ru', 'уютное'),
+('en', 'existential'),
+('ru', 'экзистенциальное'),
+('en', 'melancholic'),
+('ru', 'меланхоличное');
 
--- name: ListAuthors :many
-SELECT id, name
-FROM authors
-ORDER BY name;
+-- name: InitFillExpectationsState: exec
+INSERT INTO expectations(language_code, state) VALUES
+('en', 'masterpiece'),
+('ru', 'шедевр'),
+('en', 'philosophical message'),
+('ru', 'философская мысль'),
+('en', 'generic'),
+('ru', 'посредственность'),
+('en', 'entertainment'),
+('ru', 'развлекалово'),
+('en', 'trash'),
+('ru', 'хлам');
 
--- name: CreateAuthor :exec
-INSERT INTO authors (name, bio)
-VALUES (sqlode.arg(author_name), sqlode.narg(bio));
+-- name: InitFillGenreState: exec
+INSERT INTO genre (language_code, name) VALUES
+('en', 'Drama'),
+('ru', 'Драма'),
+('en', 'Melodrama'),
+('ru', 'Мелодрама'),
+('en', 'Comedy'),
+('ru', 'Комедия'),
+('en', 'Biographical'),
+('ru', 'Биография'),
+('en', 'Detective'),
+('ru', 'Детектив'),
+('en', 'Sport'),
+('ru', 'Спорт'),
+('en', 'Thriller'),
+('ru', 'Триллер'),
+('en', 'Historical'),
+('ru', 'Исторический'),
+('en', 'Blockbuster'),
+('ru', 'Блокбастер'),
+('en', 'Animation'),
+('ru', 'Анимация'),
+('en', 'Fantastic'),
+('ru', 'Фантастика'),
+('en', 'SciFi'),
+('ru', 'Научная фантастика'),
+('en', 'Fantasy'),
+('ru', 'Фэнтези'),
+('en', 'Action'),
+('ru', 'Экшен'),
+('en', 'Adventure'),
+('ru', 'Приключения'),
+('en', 'Musical'),
+('ru', 'Музыкаль'),
+('en', 'Documentary'),
+('ru', 'Документальный'),
+('en', 'Crime'),
+('ru', 'Криминал'),
+('en', 'Mystery'),
+('ru', 'Мистика'),
+('en', 'Horror'),
+('ru', 'Ужасы'),
+('en', 'ShortFilm'),
+('ru', 'Короткометражный фильм'),
+('en', 'War'),
+('ru', 'Военный'),
+('en', 'ForKids'),
+('ru', 'Для детей'),
+('en', 'Family'),
+('ru', 'Семейный'),
+('en', 'Politics'),
+('ru', 'Политика'),
+('en', 'Western'),
+('ru', 'Вестерн');
+
+-- name: InitTvShowFormatState: exec
+INSERT INTO format (language_code, name) VALUES
+('en', 'Movie'),
+('ru', 'Фильм'),
+('en', 'TV Show'),
+('ru', 'Телесериал'),
+('en', 'Anime'),
+('ru', 'Аниме'),
+('en', 'Book'),
+('ru', 'Книга');
