@@ -1,3 +1,4 @@
+import gleam/int
 import db/params
 import db/pog_adapter
 import dot_env
@@ -32,11 +33,11 @@ pub fn main() -> Nil {
     // |> supervisor.add(children)
     |> supervisor.start
 
-  // let _ =
-  //   pog_adapter.create_author(
-  //     single_con,
-  //     params.CreateAuthorParams("Fivle", option.Some("makes sandwitches")),
-  //   )
+  let _ =
+    pog_adapter.create_author(
+      single_con,
+      params.CreateAuthorParams("Fivle", option.Some("makes sandwitches")),
+    )
   let assert Ok(authors) = pog_adapter.list_authors(single_con)
 
   echo authors
@@ -51,12 +52,14 @@ fn establish_db_connection(
   use db_name <- result.try(envoy.get("DB_NAME"))
   use db_password <- result.try(envoy.get("DB_PASSWORD"))
   use db_user <- result.try(envoy.get("DB_USER"))
+  use db_port <- result.try(envoy.get("DB_PORT"))
+  use db_port <- result.try(int.parse(db_port))
 
   let db_con =
     pog.default_config(process_name)
     |> pog.host(db_host)
     |> pog.database(db_name)
-    |> pog.port(5432)
+    |> pog.port(db_port)
     |> pog.user(db_user)
     |> pog.password(option.Some(db_password))
     |> pog.pool_size(15)
