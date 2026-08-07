@@ -33,14 +33,13 @@ pub fn main() -> Nil {
     // |> supervisor.add(children)
     |> supervisor.start
 
-  let _ =
-    pog_adapter.create_author(
-      single_con,
-      params.CreateAuthorParams("Fivle", option.Some("makes sandwitches")),
-    )
-  let assert Ok(authors) = pog_adapter.list_authors(single_con)
+  // let _ =
+  //   pog_adapter.create_author(
+  //     single_con,
+  //     params.CreateAuthorParams("Fivle", option.Some("makes sandwitches")),
+  //   )
+  // let assert Ok(authors) = pog_adapter.list_authors(single_con)
 
-  echo authors
   Nil
 }
 
