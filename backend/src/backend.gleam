@@ -1,9 +1,10 @@
-import gleam/int
 import db/params
 import db/pog_adapter
 import dot_env
 import envoy
+import gleam/int
 import gleam/io
+import gleam/otp/actor
 import gleam/otp/supervision
 import gleam/result
 
@@ -12,6 +13,11 @@ import gleam/erlang/process
 import gleam/option
 import gleam/otp/static_supervisor as supervisor
 import pog
+
+import gleam/http/response
+import logging
+
+import ewe.{type Request, type Response}
 
 pub fn main() -> Nil {
   let process_name = process.new_name("db_procs")
@@ -25,6 +31,13 @@ pub fn main() -> Nil {
 
   let single_con = pog.named_connection(process_name)
 
+  // let _ =
+  //   pog_adapter.create_author(
+  //     single_con,
+  //     params.CreateAuthorParams("Fivle", option.Some("makes sandwitches")),
+  //   )
+  // let assert Ok(authors) = pog_adapter.list_authors(single_con)
+
   let _ =
     supervisor.new(supervisor.RestForOne)
     |> supervisor.add(db_con)
@@ -33,14 +46,29 @@ pub fn main() -> Nil {
     // |> supervisor.add(children)
     |> supervisor.start
 
-  // let _ =
-  //   pog_adapter.create_author(
-  //     single_con,
-  //     params.CreateAuthorParams("Fivle", option.Some("makes sandwitches")),
-  //   )
-  // let assert Ok(authors) = pog_adapter.list_authors(single_con)
+  logging.configure()
+  logging.set_level(logging.Info)
 
+  let assert Ok(_) = start_http_server()
+  process.sleep_forever()
   Nil
+}
+
+fn start_http_server() -> Result(
+  actor.Started(supervisor.Supervisor),
+  actor.StartError,
+) {
+  let assert Ok(http_server) =
+    ewe.new(requests_handler)
+    |> ewe.bind("0.0.0.0")
+    |> ewe.listening(port: 8080)
+    |> ewe.start
+}
+
+fn requests_handler(_req: Request) -> Response {
+  response.new(200)
+  |> response.set_header("content-type", "text/plain; charset=utf-8")
+  |> response.set_body(ewe.TextData("Hello, World!"))
 }
 
 fn establish_db_connection(
