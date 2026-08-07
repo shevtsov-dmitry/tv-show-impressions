@@ -112,6 +112,7 @@ CREATE TABLE IF NOT EXISTS tv_show
     title               VARCHAR(256) NOT NULL,
     year                INT          NOT NULL,
     title_in_latin      VARCHAR(256),
+    country             VARCHAR(128),
     setting             VARCHAR(32),
     format_id           INT REFERENCES format (id),
     post_insight_id     INT REFERENCES post_insight (id),

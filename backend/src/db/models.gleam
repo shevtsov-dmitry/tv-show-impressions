@@ -118,6 +118,7 @@ pub type TvShow {
     title: String,
     year: Int,
     title_in_latin: Option(String),
+    country: Option(String),
     setting: Option(String),
     format_id: Option(Int),
     post_insight_id: Option(Int),
