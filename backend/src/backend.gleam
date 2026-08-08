@@ -1,46 +1,29 @@
-import db/params
-import db/pog_adapter
+import gleam/int
+import gleam/result
+import db_connection
 import dot_env
 import envoy
-import gleam/int
-import gleam/io
-import gleam/otp/actor
-import gleam/otp/supervision
-import gleam/result
-
-// import db/pog_adapter
+import ewe
+import film_form/requests_handler
 import gleam/erlang/process
-import gleam/option
+import gleam/otp/actor
 import gleam/otp/static_supervisor as supervisor
-import pog
-
-import gleam/http/response
 import logging
 
-import ewe.{type Request, type Response}
-
 pub fn main() -> Nil {
-  let process_name = process.new_name("db_procs")
-
   let _ =
     dot_env.new()
     |> dot_env.set_path(".env")
     |> dot_env.load
 
-  let assert Ok(db_con) = establish_db_connection(process_name)
-
-  let single_con = pog.named_connection(process_name)
-
-  // let _ =
-  //   pog_adapter.create_author(
-  //     single_con,
-  //     params.CreateAuthorParams("Fivle", option.Some("makes sandwitches")),
-  //   )
-  // let assert Ok(authors) = pog_adapter.list_authors(single_con)
+  let assert Ok(default_db_connection) =
+    db_connection.establish_db_connection(
+      process.new_name(db_connection.get_default_connection_name()),
+    )
 
   let _ =
     supervisor.new(supervisor.RestForOne)
-    |> supervisor.add(db_con)
+    |> supervisor.add(default_db_connection)
     // |> supervisor.add(other)
     // |> supervisor.add(application)
     // |> supervisor.add(children)
@@ -50,6 +33,7 @@ pub fn main() -> Nil {
   logging.set_level(logging.Info)
 
   let assert Ok(_) = start_http_server()
+
   process.sleep_forever()
   Nil
 }
@@ -58,37 +42,20 @@ fn start_http_server() -> Result(
   actor.Started(supervisor.Supervisor),
   actor.StartError,
 ) {
-  let assert Ok(http_server) =
-    ewe.new(requests_handler)
-    |> ewe.bind("0.0.0.0")
-    |> ewe.listening(port: 8080)
+  use http_server_host <- result.try(envoy.get("HTTP_SERVER_HOST")
+    |> result.map_error(fn (_) {
+      actor.InitFailed("ERROR reading HTTP_SERVER_HOST env variable.")
+    })
+  )
+  use http_server_port <- result.try(envoy.get("HTTP_SERVER_PORT")
+    |> result.map_error(fn (_) {
+      actor.InitFailed("ERROR reading HTTP_SERVER_PORT env variable.")
+    })
+  )
+
+  let assert Ok(_) =
+    ewe.new(requests_handler.route_requests)
+    |> ewe.bind(http_server_host)
+    |> ewe.listening(port: result.unwrap(int.parse(http_server_port), 8080))
     |> ewe.start
-}
-
-fn requests_handler(_req: Request) -> Response {
-  response.new(200)
-  |> response.set_header("content-type", "text/plain; charset=utf-8")
-  |> response.set_body(ewe.TextData("Hello, World!"))
-}
-
-fn establish_db_connection(
-  process_name: process.Name(pog.Message),
-) -> Result(supervision.ChildSpecification(pog.Connection), Nil) {
-  use db_host <- result.try(envoy.get("DB_HOST"))
-  use db_name <- result.try(envoy.get("DB_NAME"))
-  use db_password <- result.try(envoy.get("DB_PASSWORD"))
-  use db_user <- result.try(envoy.get("DB_USER"))
-  use db_port <- result.try(envoy.get("DB_PORT"))
-  use db_port <- result.try(int.parse(db_port))
-
-  let db_con =
-    pog.default_config(process_name)
-    |> pog.host(db_host)
-    |> pog.database(db_name)
-    |> pog.port(db_port)
-    |> pog.user(db_user)
-    |> pog.password(option.Some(db_password))
-    |> pog.pool_size(15)
-    |> pog.supervised
-  Ok(db_con)
 }
