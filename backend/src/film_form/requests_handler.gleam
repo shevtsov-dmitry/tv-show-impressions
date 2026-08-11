@@ -1,4 +1,6 @@
+import db/db_con
 import db/models
+import db/sqlight_adapter
 import errors/http_errors
 import ewe.{type Request, type Response}
 import gleam/http/response
@@ -7,6 +9,7 @@ import gleam/list
 import gleam/option
 import gleam/result
 import gleam/string
+import gleam/string_tree
 import logging
 
 pub fn route_requests(req: Request) -> Response {
@@ -84,7 +87,37 @@ fn genre_routes(
 
   case sub_path |> list.first |> result.unwrap("") {
     "all" -> {
-      let json = "TODO"
+      use genres <- result.try(
+        db_con.use_default_connection()
+        |> sqlight_adapter.get_all_genres
+        |> result.map_error(fn(_err) {
+          logging.log(
+            logging.Warning,
+            "Failed to retrieve genres from database. ",
+          )
+          http_errors.InternalServerError500
+        }),
+      )
+
+      let json =
+        genres
+        |> list.map(fn(item) {
+          json.object([
+            #("id", json.int(item.id)),
+            #("language_code", json.string(item.language_code)),
+            #("name", json.string(item.name)),
+            #(
+              "displayed_by_default",
+              json.int(option.unwrap(item.displayed_by_default, 0)),
+            ),
+          ])
+          |> json.to_string
+        })
+        |> string.join(with: ",")
+        |> string_tree.from_string
+        |> string_tree.prepend("[")
+        |> string_tree.append("]")
+        |> string_tree.to_string
 
       Ok(
         response.new(200)
