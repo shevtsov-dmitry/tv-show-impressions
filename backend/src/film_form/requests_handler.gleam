@@ -1,14 +1,10 @@
 import db/models
-import db/pog_adapter
-import db_connection
 import errors/http_errors
 import ewe.{type Request, type Response}
-import gleam/erlang/charlist
 import gleam/http/response
 import gleam/json
 import gleam/list
 import gleam/option
-import gleam/otp/factory_supervisor
 import gleam/result
 import gleam/string
 import logging
@@ -88,28 +84,7 @@ fn genre_routes(
 
   case sub_path |> list.first |> result.unwrap("") {
     "all" -> {
-      use all_genres: List(models.Genre) <- result.try(
-        pog_adapter.get_all_genres(db_connection.use_existing_connection())
-        |> result.map_error(fn(_) {
-          logging.log(logging.Warning, "Genre retrieval failed.")
-          http_errors.InternalServerError500
-        }),
-      )
-
-      let json =
-        all_genres
-        |> list.map(fn(genre) {
-          json.object([
-            #("language_code", json.string(genre.language_code)),
-            #("name", json.string(genre.name)),
-            #(
-              "displayed_by_default",
-              json.bool(option.unwrap(genre.displayed_by_default, False)),
-            ),
-          ])
-          |> json.to_string
-        })
-        |> string.join(with: ",")
+      let json = "TODO"
 
       Ok(
         response.new(200)
@@ -135,33 +110,7 @@ fn mood_route(
 
   case sub_path |> list.first |> result.unwrap("") {
     "all" -> {
-      use all_moods <- result.try(
-        pog_adapter.get_all_default_mood(
-          db_connection.use_existing_connection(),
-        )
-        |> result.map_error(fn(err) {
-          logging.log(
-            logging.Warning,
-            "Error retieving default moods from database.",
-          )
-          http_errors.InternalServerError500
-        }),
-      )
-
-      let json =
-        all_moods
-        |> list.map(fn(mood) {
-          json.object([
-            #("language_code", json.string(mood.language_code)),
-            #("state", json.string(mood.state)),
-            #(
-              "displayed_by_default",
-              json.bool(option.unwrap(mood.displayed_by_default, False)),
-            ),
-          ])
-          |> json.to_string
-        })
-        |> string.join(with: ",")
+      let json = "TODO"
 
       Ok(
         response.new(200)

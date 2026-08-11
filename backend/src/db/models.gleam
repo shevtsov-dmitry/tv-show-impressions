@@ -7,7 +7,7 @@ pub type Mood {
     id: Int,
     language_code: String,
     state: String,
-    displayed_by_default: Option(Bool),
+    displayed_by_default: Option(Int),
   )
 }
 
@@ -16,7 +16,7 @@ pub type Genre {
     id: Int,
     language_code: String,
     name: String,
-    displayed_by_default: Option(Bool),
+    displayed_by_default: Option(Int),
   )
 }
 
@@ -25,7 +25,7 @@ pub type Expectation {
     id: Int,
     language_code: String,
     state: String,
-    displayed_by_default: Option(Bool),
+    displayed_by_default: Option(Int),
   )
 }
 
@@ -35,7 +35,7 @@ pub type Impression {
     language_code: String,
     state: String,
     order_number: Int,
-    displayed_by_default: Option(Bool),
+    displayed_by_default: Option(Int),
   )
 }
 
@@ -48,7 +48,7 @@ pub type Strength {
     id: Int,
     language_code: String,
     name: String,
-    displayed_by_default: Option(Bool),
+    displayed_by_default: Option(Int),
   )
 }
 
@@ -57,7 +57,7 @@ pub type Annoyance {
     id: Int,
     language_code: String,
     name: String,
-    displayed_by_default: Option(Bool),
+    displayed_by_default: Option(Int),
   )
 }
 
@@ -75,18 +75,18 @@ pub type Setting {
     id: Int,
     language_code: String,
     name: String,
-    displayed_by_default: Option(Bool),
+    displayed_by_default: Option(Int),
   )
 }
 
 pub type PostInsight {
   PostInsight(
     id: Int,
-    rewatched: Option(Bool),
+    rewatched: Option(Int),
     forgettability: Option(Float),
     extended_opinion: Option(String),
     moral_understanding: Option(String),
-    finished: Option(Bool),
+    finished: Option(Int),
     expectations_id: Option(Int),
     genres_id: Option(Int),
     mood_id: Option(Int),
@@ -125,7 +125,7 @@ pub type TvShow {
     user_account_id: Option(Int),
     extended_opinion: Option(String),
     moral_understanding: Option(String),
-    finished: Option(Bool),
+    finished: Option(Int),
     expectations_id: Option(Int),
     genres_id: Option(Int),
     mood_id: Option(Int),

@@ -1,4 +1,3 @@
-import db_connection
 import dot_env
 import envoy
 import ewe
@@ -15,19 +14,6 @@ pub fn main() -> Nil {
     dot_env.new()
     |> dot_env.set_path(".env")
     |> dot_env.load
-
-  let assert Ok(default_db_connection) =
-    db_connection.establish_db_connection(
-      process.new_name(db_connection.get_default_connection_name()),
-    )
-
-  let _ =
-    supervisor.new(supervisor.RestForOne)
-    |> supervisor.add(default_db_connection)
-    // |> supervisor.add(other)
-    // |> supervisor.add(application)
-    // |> supervisor.add(children)
-    |> supervisor.start
 
   logging.configure()
   logging.set_level(logging.Info)
