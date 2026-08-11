@@ -1,13 +1,13 @@
-import gleam/int
-import gleam/result
 import db_connection
 import dot_env
 import envoy
 import ewe
 import film_form/requests_handler
 import gleam/erlang/process
+import gleam/int
 import gleam/otp/actor
 import gleam/otp/static_supervisor as supervisor
+import gleam/result
 import logging
 
 pub fn main() -> Nil {
@@ -42,15 +42,17 @@ fn start_http_server() -> Result(
   actor.Started(supervisor.Supervisor),
   actor.StartError,
 ) {
-  use http_server_host <- result.try(envoy.get("HTTP_SERVER_HOST")
-    |> result.map_error(fn (_) {
+  use http_server_host <- result.try(
+    envoy.get("HTTP_SERVER_HOST")
+    |> result.map_error(fn(_) {
       actor.InitFailed("ERROR reading HTTP_SERVER_HOST env variable.")
-    })
+    }),
   )
-  use http_server_port <- result.try(envoy.get("HTTP_SERVER_PORT")
-    |> result.map_error(fn (_) {
+  use http_server_port <- result.try(
+    envoy.get("HTTP_SERVER_PORT")
+    |> result.map_error(fn(_) {
       actor.InitFailed("ERROR reading HTTP_SERVER_PORT env variable.")
-    })
+    }),
   )
 
   let assert Ok(_) =
