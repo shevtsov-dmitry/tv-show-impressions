@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="tv_show_impressions" options="-parameters" />
+      <module name="tv_show_impressions.integrationTest" options="-parameters" />
+      <module name="tv_show_impressions.main" options="-parameters" />
+      <module name="tv_show_impressions.native-test" options="-parameters" />
+      <module name="tv_show_impressions.quarkus-generated-sources" options="-parameters" />
+      <module name="tv_show_impressions.quarkus-test-generated-sources" options="-parameters" />
+      <module name="tv_show_impressions.test" options="-parameters" />
+    </option>
+  </component>
+</project>
