@@ -78,9 +78,9 @@ pub fn all() -> List(runtime.QueryInfo) {
     ),
     runtime.QueryInfo(
       name: "AddTvShow",
-      sql: "",
+      sql: "insert into tv_show(title, year, title_in_latin, country, setting, format_id, post_insight_id, extended_opinion, moral_understanding, finished, expectations_id, genres_id, mood_id, user_account_id, strengths_id, annoyances_id, impressions_id, visual_rate, dialogues_rate, characters_rate, story_rate, atmosphere_rate, moral_depth_rate, originality_rate) values(?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24);",
       command: runtime.Exec,
-      param_count: 0,
+      param_count: 24,
     ),
   ]
 }
@@ -223,14 +223,14 @@ pub fn get_user_account_id_by_email() -> runtime.RawQuery(
   )
 }
 
-pub fn add_tv_show() -> runtime.RawQuery(Nil) {
+pub fn add_tv_show() -> runtime.RawQuery(params.AddTvShowParams) {
   runtime.RawQuery(
     name: "AddTvShow",
-    sql: "",
+    sql: "insert into tv_show(title, year, title_in_latin, country, setting, format_id, post_insight_id, extended_opinion, moral_understanding, finished, expectations_id, genres_id, mood_id, user_account_id, strengths_id, annoyances_id, impressions_id, visual_rate, dialogues_rate, characters_rate, story_rate, atmosphere_rate, moral_depth_rate, originality_rate) values(__sqlode_param_1__, __sqlode_param_2__, __sqlode_param_3__, __sqlode_param_4__, __sqlode_param_5__, __sqlode_param_6__, __sqlode_param_7__, __sqlode_param_8__, __sqlode_param_9__, __sqlode_param_10__, __sqlode_param_11__, __sqlode_param_12__, __sqlode_param_13__, __sqlode_param_14__, __sqlode_param_15__, __sqlode_param_16__, __sqlode_param_17__, __sqlode_param_18__, __sqlode_param_19__, __sqlode_param_20__, __sqlode_param_21__, __sqlode_param_22__, __sqlode_param_23__, __sqlode_param_24__);",
     command: runtime.Exec,
-    param_count: 0,
+    param_count: 24,
     placeholder_style: runtime.QuestionNumbered,
-    encode: fn(_) { [] },
+    encode: params.add_tv_show_values,
     slice_info: fn(_) { [] },
   )
 }
@@ -294,8 +294,61 @@ pub fn prepare_get_user_account_id_by_email(
   )
 }
 
-pub fn prepare_add_tv_show() -> #(String, List(runtime.Value)) {
-  runtime.prepare(add_tv_show(), Nil)
+pub fn prepare_add_tv_show(
+  title title: String,
+  year year: Int,
+  title_in_latin title_in_latin: Option(String),
+  country country: Option(String),
+  setting setting: Option(String),
+  format_id format_id: Option(Int),
+  post_insight_id post_insight_id: Option(Int),
+  extended_opinion extended_opinion: Option(String),
+  moral_understanding moral_understanding: Option(String),
+  finished finished: Option(Int),
+  expectations_id expectations_id: Option(Int),
+  genres_id genres_id: Option(Int),
+  mood_id mood_id: Option(Int),
+  user_account_id user_account_id: Option(Int),
+  strengths_id strengths_id: Option(Int),
+  annoyances_id annoyances_id: Option(Int),
+  impressions_id impressions_id: Option(Int),
+  visual_rate visual_rate: Option(Int),
+  dialogues_rate dialogues_rate: Option(Int),
+  characters_rate characters_rate: Option(Int),
+  story_rate story_rate: Option(Int),
+  atmosphere_rate atmosphere_rate: Option(Int),
+  moral_depth_rate moral_depth_rate: Option(Int),
+  originality_rate originality_rate: Option(Int),
+) -> #(String, List(runtime.Value)) {
+  runtime.prepare(
+    add_tv_show(),
+    params.AddTvShowParams(
+      title: title,
+      year: year,
+      title_in_latin: title_in_latin,
+      country: country,
+      setting: setting,
+      format_id: format_id,
+      post_insight_id: post_insight_id,
+      extended_opinion: extended_opinion,
+      moral_understanding: moral_understanding,
+      finished: finished,
+      expectations_id: expectations_id,
+      genres_id: genres_id,
+      mood_id: mood_id,
+      user_account_id: user_account_id,
+      strengths_id: strengths_id,
+      annoyances_id: annoyances_id,
+      impressions_id: impressions_id,
+      visual_rate: visual_rate,
+      dialogues_rate: dialogues_rate,
+      characters_rate: characters_rate,
+      story_rate: story_rate,
+      atmosphere_rate: atmosphere_rate,
+      moral_depth_rate: moral_depth_rate,
+      originality_rate: originality_rate,
+    ),
+  )
 }
 
 pub fn get_all_genres_decoder() -> decode.Decoder(models.GetAllGenresRow) {

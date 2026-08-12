@@ -1,20 +1,14 @@
-import db/db_con
-import db/models
-import db/sqlight_adapter
 import errors/http_errors
 import ewe.{type Request, type Response}
 import film_form/api/get_requests
 import film_form/api/post_requests
+import gleam/http/request
 import gleam/http/response
-import gleam/json
 import gleam/list
-import gleam/option
 import gleam/result
 import gleam/string
-import logging
-import utils/json_utils
 
-pub fn route_requests(req: Request) -> Response {
+pub fn route_requests(req: Request) -> response.Response(ewe.ResponseBody) {
   let path_parts =
     string.split(req.path, on: "/")
     |> list.drop(1)
@@ -22,7 +16,6 @@ pub fn route_requests(req: Request) -> Response {
     "api" -> list.drop(path_parts, 1)
     _ -> []
   }
-
   let main_route =
     path_parts
     |> list.first()
@@ -30,22 +23,10 @@ pub fn route_requests(req: Request) -> Response {
 
   let sub_path = list.drop(path_parts, 1)
 
-  // let _ = case list.is_empty(path_parts) {
-  //   True -> response.new(400)
-  //   |> response.set_body(ewe.TextData("Error: No valid path provided. Please provide a valid api endpoint."))
-  //   _ -> {}
-  // }
-  handle_request(main_route, sub_path)
-}
-
-fn handle_request(
-  main_route: String,
-  sub_path: List(String),
-) -> response.Response(ewe.ResponseBody) {
   let http_response: Result(Response, http_errors.HttpErrorCode) = case
     main_route
   {
-    "tv-show" -> tv_show_routes(sub_path)
+    "tv-show" -> tv_show_routes(req.body, sub_path)
     "genre" -> genre_routes(sub_path)
     "format" -> format_routes(sub_path)
     "mood" -> mood_route(sub_path)
@@ -87,12 +68,13 @@ fn verify_sub_path_exists(
 // ====== ROUTING =========
 
 fn tv_show_routes(
+  req: request.Request(ewe.Connection),
   sub_path: List(String),
 ) -> Result(response.Response(ewe.ResponseBody), http_errors.HttpErrorCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
   case sub_path |> list.first |> result.unwrap("") {
     "add" -> {
-      post_requests.add_new_tv_show()
+      post_requests.add_new_tv_show(req)
     }
     _ -> Error(http_errors.BadRequest400)
   }

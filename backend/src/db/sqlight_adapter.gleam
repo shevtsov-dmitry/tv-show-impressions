@@ -296,9 +296,12 @@ pub fn get_user_account_id_by_email(
   })
 }
 
-pub fn add_tv_show(db: sqlight.Connection) -> Result(Nil, sqlight.Error) {
+pub fn add_tv_show(
+  db: sqlight.Connection,
+  p: params.AddTvShowParams,
+) -> Result(Nil, sqlight.Error) {
   let q = queries.add_tv_show()
-  let #(sql, values) = runtime.prepare(q, Nil)
+  let #(sql, values) = runtime.prepare(q, p)
   sqlight.query(
     sql,
     on: db,
