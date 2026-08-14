@@ -11,10 +11,24 @@ import {
   Textarea,
   Title,
 } from '@mantine/core'
+import { useTvShowState } from '../state/tvShowState'
+import { useEffect } from 'react'
 
 const HTTP_SERVER_HOST = "localhost"
 const HTTP_SERVER_PORT = 3000
-const SERVER_ROUTE = HTTP_SERVER_HOST + ":" + HTTP_SERVER_PORT
+const API_ROUTE = HTTP_SERVER_HOST + ":" + HTTP_SERVER_PORT + "/api"
+
+useEffect({
+  get_all_genres()
+}, [])
+
+const get_all_genres = async () => {
+  fetch(API_ROUTE + "/genre/all")
+    .then(resp => resp.json())
+    .then(raw_json => JSON.parse(raw_json) as  )
+
+
+}
 
 
 const AddTvShow = () => {

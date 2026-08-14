@@ -1,7 +1,7 @@
 import { create } from "zustand"
-import type { TvShow } from "../types/TvShow"
+import type { TvShow } from "../types/types"
 
-const useTvShow = create<TvShow>((set) => ({
+export const useTvShowState = create<TvShow>((set) => ({
   id: 0,
   title: "",
   year: 0,
