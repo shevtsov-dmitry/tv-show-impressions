@@ -13,27 +13,28 @@ import {
 } from '@mantine/core'
 import { useTvShowState } from '../state/tvShowState'
 import { useEffect } from 'react'
-import type { Genre } from '../types/types'
 
 const HTTP_SERVER_HOST = "localhost"
 const HTTP_SERVER_PORT = 3000
 const API_ROUTE = HTTP_SERVER_HOST + ":" + HTTP_SERVER_PORT + "/api"
 
+const  lang_code = "en"
 
+
+// const get_all_genres = async () => {
+//   fetch(API_ROUTE + "/genre/all" + `?lang_code=${lang_code}` )
+//     .then(resp => resp.json())
+//     .then(raw_json => JSON.parse(raw_json) as string[])
+//     .catch(err => console.error('ERROR: genre parse'))
+//     .then(genres => useTvShowState(state => state))
+// }
 
 const AddTvShow = () => {
 
-  useEffect({
-    get_all_genres()
-  }, [])
+  // useEffect({
+  //   get_all_genres()
+  // }, [])
 
-  const get_all_genres = async () => {
-    fetch(API_ROUTE + "/genre/all")
-      .then(resp => resp.json())
-      .then(raw_json => JSON.parse(raw_json) as Genre[])
-      .catch(err => console.error('ERROR: genre parse'))
-      .then(genres => useTvShowState(state => state))
-  }
 
   return (
     <Container>
