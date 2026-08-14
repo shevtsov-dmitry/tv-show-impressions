@@ -12,6 +12,9 @@ import {
   Title,
 } from '@mantine/core'
 
+const HTTP_SERVER_HOST = "localhost"
+const HTTP_SERVER_PORT = 3000
+const SERVER_ROUTE = HTTP_SERVER_HOST + ":" + HTTP_SERVER_PORT
 
 
 const AddTvShow = () => {

@@ -25,8 +25,9 @@ pub fn get_all_genres() -> Result(Response, http_errors.HttpErrorCode) {
   let json =
     genres
     |> list.map(fn(genre) {
-      let models.Genre(_id, language_code, name, displayed_by_default) = genre
+      let models.Genre(id, language_code, name, displayed_by_default) = genre
       json.object([
+        #("id", json.int(id)),
         #("language_code", json.string(language_code)),
         #("name", json.string(name)),
         #(
