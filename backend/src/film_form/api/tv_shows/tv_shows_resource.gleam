@@ -1,3 +1,4 @@
+
 import errors/http_errors
 import ewe.{type Request, type Response}
 import gleam/bit_array
@@ -76,10 +77,10 @@ pub fn add_new_tv_show(
     ))
   }
 
-  use decoded_json <- result.try(fn(_) { todo })
+  // use decoded_json <- result.try(fn(_) {  })
 
   Ok(
     response.new(200)
-    |> response.set_body(ewe.TextData("")),
+    |> response.set_body(ewe.TextData("TODO add_new_tv_show")),
   )
 }
