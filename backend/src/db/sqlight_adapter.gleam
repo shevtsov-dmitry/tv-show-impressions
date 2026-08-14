@@ -23,11 +23,12 @@ fn value_to_sqlight(value: runtime.Value) -> sqlight.Value {
   }
 }
 
-pub fn get_all_genres(
+pub fn get_all_genres_by_language_code(
   db: sqlight.Connection,
-) -> Result(List(models.GetAllGenresRow), sqlight.Error) {
-  let q = queries.get_all_genres()
-  let #(sql, values) = runtime.prepare(q, Nil)
+  p: params.GetAllGenresByLanguageCodeParams,
+) -> Result(List(models.GetAllGenresByLanguageCodeRow), sqlight.Error) {
+  let q = queries.get_all_genres_by_language_code()
+  let #(sql, values) = runtime.prepare(q, p)
   sqlight.query(
     sql,
     on: db,
@@ -47,11 +48,12 @@ pub fn get_all_genres(
   )
 }
 
-pub fn get_all_show_formats(
+pub fn get_all_show_formats_by_language_code(
   db: sqlight.Connection,
-) -> Result(List(models.GetAllShowFormatsRow), sqlight.Error) {
-  let q = queries.get_all_show_formats()
-  let #(sql, values) = runtime.prepare(q, Nil)
+  p: params.GetAllShowFormatsByLanguageCodeParams,
+) -> Result(List(models.GetAllShowFormatsByLanguageCodeRow), sqlight.Error) {
+  let q = queries.get_all_show_formats_by_language_code()
+  let #(sql, values) = runtime.prepare(q, p)
   sqlight.query(
     sql,
     on: db,
@@ -65,11 +67,12 @@ pub fn get_all_show_formats(
   )
 }
 
-pub fn get_all_default_mood(
+pub fn get_all_default_mood_by_language_code(
   db: sqlight.Connection,
-) -> Result(List(models.GetAllDefaultMoodRow), sqlight.Error) {
-  let q = queries.get_all_default_mood()
-  let #(sql, values) = runtime.prepare(q, Nil)
+  p: params.GetAllDefaultMoodByLanguageCodeParams,
+) -> Result(List(models.GetAllDefaultMoodByLanguageCodeRow), sqlight.Error) {
+  let q = queries.get_all_default_mood_by_language_code()
+  let #(sql, values) = runtime.prepare(q, p)
   sqlight.query(
     sql,
     on: db,
@@ -78,22 +81,28 @@ pub fn get_all_default_mood(
       use id <- decode.field(0, decode.int)
       use language_code <- decode.field(1, decode.string)
       use state <- decode.field(2, decode.string)
-      use displayed_by_default <- decode.field(3, decode.optional(decode.int))
+      use category <- decode.field(3, decode.string)
+      use displayed_by_default <- decode.field(4, decode.optional(decode.int))
       decode.success(models.Mood(
         id:,
         language_code:,
         state:,
+        category:,
         displayed_by_default:,
       ))
     },
   )
 }
 
-pub fn get_all_default_expectations(
+pub fn get_all_default_expectations_by_language_code(
   db: sqlight.Connection,
-) -> Result(List(models.GetAllDefaultExpectationsRow), sqlight.Error) {
-  let q = queries.get_all_default_expectations()
-  let #(sql, values) = runtime.prepare(q, Nil)
+  p: params.GetAllDefaultExpectationsByLanguageCodeParams,
+) -> Result(
+  List(models.GetAllDefaultExpectationsByLanguageCodeRow),
+  sqlight.Error,
+) {
+  let q = queries.get_all_default_expectations_by_language_code()
+  let #(sql, values) = runtime.prepare(q, p)
   sqlight.query(
     sql,
     on: db,
@@ -113,11 +122,15 @@ pub fn get_all_default_expectations(
   )
 }
 
-pub fn get_all_default_impressions(
+pub fn get_all_default_impressions_by_language_code(
   db: sqlight.Connection,
-) -> Result(List(models.GetAllDefaultImpressionsRow), sqlight.Error) {
-  let q = queries.get_all_default_impressions()
-  let #(sql, values) = runtime.prepare(q, Nil)
+  p: params.GetAllDefaultImpressionsByLanguageCodeParams,
+) -> Result(
+  List(models.GetAllDefaultImpressionsByLanguageCodeRow),
+  sqlight.Error,
+) {
+  let q = queries.get_all_default_impressions_by_language_code()
+  let #(sql, values) = runtime.prepare(q, p)
   sqlight.query(
     sql,
     on: db,
@@ -139,11 +152,12 @@ pub fn get_all_default_impressions(
   )
 }
 
-pub fn get_all_default_strengths(
+pub fn get_all_default_strengths_by_language_code(
   db: sqlight.Connection,
-) -> Result(List(models.GetAllDefaultStrengthsRow), sqlight.Error) {
-  let q = queries.get_all_default_strengths()
-  let #(sql, values) = runtime.prepare(q, Nil)
+  p: params.GetAllDefaultStrengthsByLanguageCodeParams,
+) -> Result(List(models.GetAllDefaultStrengthsByLanguageCodeRow), sqlight.Error) {
+  let q = queries.get_all_default_strengths_by_language_code()
+  let #(sql, values) = runtime.prepare(q, p)
   sqlight.query(
     sql,
     on: db,
@@ -194,11 +208,11 @@ pub fn get_specific_strength(
   })
 }
 
-pub fn get_specific_annoyances(
+pub fn get_specific_annoyance(
   db: sqlight.Connection,
-  p: params.GetSpecificAnnoyancesParams,
-) -> Result(Option(models.GetSpecificAnnoyancesRow), sqlight.Error) {
-  let q = queries.get_specific_annoyances()
+  p: params.GetSpecificAnnoyanceParams,
+) -> Result(Option(models.GetSpecificAnnoyanceRow), sqlight.Error) {
+  let q = queries.get_specific_annoyance()
   let #(sql, values) = runtime.prepare(q, p)
   sqlight.query(
     sql,
@@ -225,11 +239,15 @@ pub fn get_specific_annoyances(
   })
 }
 
-pub fn get_all_default_annoyances(
+pub fn get_all_default_annoyances_by_language_code(
   db: sqlight.Connection,
-) -> Result(List(models.GetAllDefaultAnnoyancesRow), sqlight.Error) {
-  let q = queries.get_all_default_annoyances()
-  let #(sql, values) = runtime.prepare(q, Nil)
+  p: params.GetAllDefaultAnnoyancesByLanguageCodeParams,
+) -> Result(
+  List(models.GetAllDefaultAnnoyancesByLanguageCodeRow),
+  sqlight.Error,
+) {
+  let q = queries.get_all_default_annoyances_by_language_code()
+  let #(sql, values) = runtime.prepare(q, p)
   sqlight.query(
     sql,
     on: db,
@@ -251,9 +269,10 @@ pub fn get_all_default_annoyances(
 
 pub fn get_all_default_show_setting(
   db: sqlight.Connection,
+  p: params.GetAllDefaultShowSettingParams,
 ) -> Result(List(models.GetAllDefaultShowSettingRow), sqlight.Error) {
   let q = queries.get_all_default_show_setting()
-  let #(sql, values) = runtime.prepare(q, Nil)
+  let #(sql, values) = runtime.prepare(q, p)
   sqlight.query(
     sql,
     on: db,
@@ -296,12 +315,9 @@ pub fn get_user_account_id_by_email(
   })
 }
 
-pub fn add_tv_show(
-  db: sqlight.Connection,
-  p: params.AddTvShowParams,
-) -> Result(Nil, sqlight.Error) {
+pub fn add_tv_show(db: sqlight.Connection) -> Result(Nil, sqlight.Error) {
   let q = queries.add_tv_show()
-  let #(sql, values) = runtime.prepare(q, p)
+  let #(sql, values) = runtime.prepare(q, Nil)
   sqlight.query(
     sql,
     on: db,

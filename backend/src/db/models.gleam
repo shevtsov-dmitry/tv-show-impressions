@@ -7,6 +7,7 @@ pub type Mood {
     id: Int,
     language_code: String,
     state: String,
+    category: String,
     displayed_by_default: Option(Int),
   )
 }
@@ -142,31 +143,31 @@ pub type TvShow {
   )
 }
 
-pub type GetAllGenresRow =
+pub type GetAllGenresByLanguageCodeRow =
   Genre
 
-pub type GetAllShowFormatsRow =
+pub type GetAllShowFormatsByLanguageCodeRow =
   Format
 
-pub type GetAllDefaultMoodRow =
+pub type GetAllDefaultMoodByLanguageCodeRow =
   Mood
 
-pub type GetAllDefaultExpectationsRow =
+pub type GetAllDefaultExpectationsByLanguageCodeRow =
   Expectation
 
-pub type GetAllDefaultImpressionsRow =
+pub type GetAllDefaultImpressionsByLanguageCodeRow =
   Impression
 
-pub type GetAllDefaultStrengthsRow =
+pub type GetAllDefaultStrengthsByLanguageCodeRow =
   Strength
 
 pub type GetSpecificStrengthRow =
   Strength
 
-pub type GetSpecificAnnoyancesRow =
+pub type GetSpecificAnnoyanceRow =
   Annoyance
 
-pub type GetAllDefaultAnnoyancesRow =
+pub type GetAllDefaultAnnoyancesByLanguageCodeRow =
   Annoyance
 
 pub type GetAllDefaultShowSettingRow =

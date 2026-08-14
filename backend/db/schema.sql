@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS mood
 id                   INTEGER PRIMARY KEY AUTOINCREMENT,
 language_code        TEXT NOT NULL,
 state                TEXT NOT NULL,
+category             TEXT NOT NULL,
 displayed_by_default INTEGER
 );
 
