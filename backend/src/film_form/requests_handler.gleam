@@ -87,7 +87,7 @@ fn genre_routes(
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
 
   case sub_path |> list.first |> result.unwrap("") {
-    "all" -> get_requests.get_all_genres()
+    "all" -> get_requests.get_all_genres(req)
 
     _ -> Error(http_errors.BadRequest400)
   }

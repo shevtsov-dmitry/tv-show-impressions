@@ -11,7 +11,9 @@ import gleam/result
 import logging
 import utils/json_utils
 
-pub fn get_all_genres() -> Result(Response, http_errors.HttpErrorCode) {
+pub fn get_all_genres(
+  req: Request,
+) -> Result(Response, http_errors.HttpErrorCode) {
   use genres <- result.try(
     db_con.use_default_connection()
     |> sqlight_adapter.get_all_genres
@@ -24,14 +26,11 @@ pub fn get_all_genres() -> Result(Response, http_errors.HttpErrorCode) {
   let json =
     genres
     |> list.map(fn(genre) {
-      let models.Genre(_id, language_code, name, displayed_by_default) = genre
+      let models.Genre(id, language_code, name, _displayed_by_default) = genre
       json.object([
-        #("language_code", json.string(language_code)),
+        #("id", json.int(id)),
         #("name", json.string(name)),
-        #(
-          "displayed_by_default",
-          json.int(option.unwrap(displayed_by_default, 0)),
-        ),
+        #("language_code", json.string(language_code)),
       ])
     })
     |> json_utils.parse_objects_to_raw_json_string
@@ -39,6 +38,18 @@ pub fn get_all_genres() -> Result(Response, http_errors.HttpErrorCode) {
   Ok(
     response.new(200)
     |> response.set_header("Content-Type", "application/json")
+    |> response.set_header(
+      "Access-Control-Allow-Origin",
+      "http://localhost:5173",
+    )
+    |> response.set_header(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS",
+    )
+    |> response.set_header(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization",
+    )
     |> response.set_body(ewe.TextData(json)),
   )
 }

@@ -6,15 +6,39 @@ import {
   Flex,
   Grid,
   Input,
+  MultiSelect,
   Select,
   Text,
   Textarea,
   Title,
 } from '@mantine/core'
-
+import { useEffect, useState } from 'react'
 
 
 const AddTvShow = () => {
+
+  const LANGUAGE_CODE = "ru"
+  const API_URL = import.meta.env.VITE_API_URL
+
+  interface Genre {
+    id: number,
+    name: string,
+    language_code: string,
+  }
+
+  const [genres, setGenres] = useState<Genre[]>([])
+  const [selectedGenresIds
+    , setSelectedGenresIds] = useState<number[]>([])
+
+  useEffect(() => {
+    const fetchGenres = async () =>
+      fetch(API_URL + "/genre/all")
+        .then(resp => resp.json() as Promise<Genre[]>)
+        .then(arrayGenres => setGenres(arrayGenres.filter(genre => genre.language_code == LANGUAGE_CODE)))
+
+    fetchGenres()
+  }, [])
+
   return (
     <Container>
       <Title>NEW CONTENT</Title>
@@ -40,7 +64,14 @@ const AddTvShow = () => {
         </Box>
         <Box>
           <Text>genres</Text>
-          <Input />
+          <MultiSelect
+            label="select genres"
+            data={genres.map((v, _idx) =>
+              ({ value: `${v.id}`, label: v.name })
+            )}
+            value={selectedGenresIds.map(String)}
+            onChange={values => { setSelectedGenresIds(values.map(Number)) }}
+          />
         </Box>
         <Box>
           <Text>setting</Text>
