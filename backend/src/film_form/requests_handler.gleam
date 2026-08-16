@@ -7,6 +7,7 @@ import gleam/http/response
 import gleam/list
 import gleam/result
 import gleam/string
+import utils/http_codes
 
 pub fn route_requests(req: Request) -> response.Response(ewe.ResponseBody) {
   let path_parts =
@@ -23,9 +24,7 @@ pub fn route_requests(req: Request) -> response.Response(ewe.ResponseBody) {
 
   let sub_path = list.drop(path_parts, 1)
 
-  let http_response: Result(Response, http_errors.HttpErrorCode) = case
-    main_route
-  {
+  let http_response: Result(Response, http_codes.HttpCode) = case main_route {
     "tv-show" -> tv_show_routes(req, sub_path)
     "genre" -> genre_routes(req, sub_path)
     "format" -> format_routes(req, sub_path)
@@ -36,7 +35,7 @@ pub fn route_requests(req: Request) -> response.Response(ewe.ResponseBody) {
     "annoyance" -> annoyances_routes(req, sub_path)
     "setting" -> setting_routes(req, sub_path)
     "user_account" -> user_account_routes(req, sub_path)
-    _ -> Error(http_errors.NotFound404)
+    _ -> Error(http_codes.NotFound404)
   }
 
   // TODO refactor 
@@ -47,7 +46,7 @@ pub fn route_requests(req: Request) -> response.Response(ewe.ResponseBody) {
     False -> {
       let #(code, message) =
         http_response
-        |> result.unwrap_error(http_errors.InternalServerError500)
+        |> result.unwrap_error(http_codes.InternalServerError500)
         |> http_errors.get_default_error_code_message_with_code
 
       response.new(code)
@@ -58,9 +57,9 @@ pub fn route_requests(req: Request) -> response.Response(ewe.ResponseBody) {
 
 fn verify_sub_path_exists(
   sub_path: List(String),
-) -> Result(List(String), http_errors.HttpErrorCode) {
+) -> Result(List(String), http_codes.HttpCode) {
   case sub_path |> list.is_empty {
-    True -> Error(http_errors.BadRequest400)
+    True -> Error(http_codes.BadRequest400)
     False -> Ok(sub_path)
   }
 }
@@ -70,112 +69,112 @@ fn verify_sub_path_exists(
 fn tv_show_routes(
   req: request.Request(ewe.Connection),
   sub_path: List(String),
-) -> Result(Response, http_errors.HttpErrorCode) {
+) -> Result(Response, http_codes.HttpCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
   case sub_path |> list.first |> result.unwrap("") {
     "add" -> {
       post_requests.add_new_tv_show(req)
     }
-    _ -> Error(http_errors.BadRequest400)
+    _ -> Error(http_codes.BadRequest400)
   }
 }
 
 fn genre_routes(
   req: Request,
   sub_path: List(String),
-) -> Result(Response, http_errors.HttpErrorCode) {
+) -> Result(Response, http_codes.HttpCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
 
   case sub_path |> list.first |> result.unwrap("") {
     "all" -> get_requests.get_all_genres(req)
 
-    _ -> Error(http_errors.BadRequest400)
+    _ -> Error(http_codes.BadRequest400)
   }
 }
 
 fn format_routes(
   req: Request,
   sub_path: List(String),
-) -> Result(Response, http_errors.HttpErrorCode) {
+) -> Result(Response, http_codes.HttpCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
 
   case sub_path |> list.first |> result.unwrap("") {
     "all" -> get_requests.get_all_show_formats()
 
-    _ -> Error(http_errors.BadRequest400)
+    _ -> Error(http_codes.BadRequest400)
   }
 }
 
 fn mood_route(
   req: Request,
   sub_path: List(String),
-) -> Result(Response, http_errors.HttpErrorCode) {
+) -> Result(Response, http_codes.HttpCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
   case sub_path |> list.first |> result.unwrap("") {
     "all" -> get_requests.get_all_default_mood()
-    _ -> Error(http_errors.BadRequest400)
+    _ -> Error(http_codes.BadRequest400)
   }
 }
 
 fn expectation_routes(
   req: Request,
   sub_path: List(String),
-) -> Result(Response, http_errors.HttpErrorCode) {
+) -> Result(Response, http_codes.HttpCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
   case sub_path |> list.first |> result.unwrap("") {
     "all" -> get_requests.get_all_default_expectations()
-    _ -> Error(http_errors.BadRequest400)
+    _ -> Error(http_codes.BadRequest400)
   }
 }
 
 fn strengths_routes(
   req: Request,
   sub_path: List(String),
-) -> Result(Response, http_errors.HttpErrorCode) {
+) -> Result(Response, http_codes.HttpCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
   case sub_path |> list.first |> result.unwrap("") {
     "all" -> get_requests.get_all_default_strengths()
-    _ -> Error(http_errors.BadRequest400)
+    _ -> Error(http_codes.BadRequest400)
   }
 }
 
 fn impression_routes(
   req: Request,
   sub_path: List(String),
-) -> Result(Response, http_errors.HttpErrorCode) {
+) -> Result(Response, http_codes.HttpCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
   case sub_path |> list.first |> result.unwrap("") {
     "all" -> get_requests.get_all_default_impressions()
-    _ -> Error(http_errors.BadRequest400)
+    _ -> Error(http_codes.BadRequest400)
   }
 }
 
 fn annoyances_routes(
   req: Request,
   sub_path: List(String),
-) -> Result(Response, http_errors.HttpErrorCode) {
+) -> Result(Response, http_codes.HttpCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
   case sub_path |> list.first |> result.unwrap("") {
     "all" -> get_requests.get_all_default_annoyances()
-    _ -> Error(http_errors.BadRequest400)
+    _ -> Error(http_codes.BadRequest400)
   }
 }
 
 fn setting_routes(
   req: Request,
   sub_path: List(String),
-) -> Result(Response, http_errors.HttpErrorCode) {
+) -> Result(Response, http_codes.HttpCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
   case sub_path |> list.first |> result.unwrap("") {
     "all" -> get_requests.get_all_default_show_setting()
-    _ -> Error(http_errors.BadRequest400)
+    _ -> Error(http_codes.BadRequest400)
   }
 }
 
 fn user_account_routes(
   req: Request,
   sub_path: List(String),
-) -> Result(Response, http_errors.HttpErrorCode) {
+) -> Result(Response, http_codes.HttpCode) {
   // TODO
   Ok(response.new(200) |> response.set_body(ewe.TextData("dummy")))
 }

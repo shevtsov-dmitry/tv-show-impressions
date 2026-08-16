@@ -1,7 +1,6 @@
 import db/db_con
 import db/models
 import db/sqlight_adapter
-import errors/http_errors
 import ewe.{type Request, type Response}
 import gleam/http/response
 import gleam/json
@@ -9,17 +8,16 @@ import gleam/list
 import gleam/option
 import gleam/result
 import logging
+import utils/http_codes.{type HttpCode}
 import utils/json_utils
 
-pub fn get_all_genres(
-  req: Request,
-) -> Result(Response, http_errors.HttpErrorCode) {
+pub fn get_all_genres(req: Request) -> Result(Response, HttpCode) {
   use genres <- result.try(
     db_con.use_default_connection()
     |> sqlight_adapter.get_all_genres
     |> result.map_error(fn(_err) {
       logging.log(logging.Warning, "Failed to retrieve genres from database. ")
-      http_errors.InternalServerError500
+      http_codes.InternalServerError500
     }),
   )
 
@@ -54,13 +52,13 @@ pub fn get_all_genres(
   )
 }
 
-pub fn get_all_show_formats() -> Result(Response, http_errors.HttpErrorCode) {
+pub fn get_all_show_formats() -> Result(Response, http_codes.HttpCode) {
   use formats <- result.try(
     db_con.use_default_connection()
     |> sqlight_adapter.get_all_show_formats()
     |> result.map_error(fn(_err) {
       logging.log(logging.Warning, "Failed to retrieve formats from database. ")
-      http_errors.InternalServerError500
+      http_codes.InternalServerError500
     }),
   )
   let json =
@@ -81,13 +79,13 @@ pub fn get_all_show_formats() -> Result(Response, http_errors.HttpErrorCode) {
   )
 }
 
-pub fn get_all_default_mood() -> Result(Response, http_errors.HttpErrorCode) {
+pub fn get_all_default_mood() -> Result(Response, http_codes.HttpCode) {
   use moods <- result.try(
     db_con.use_default_connection()
     |> sqlight_adapter.get_all_default_mood()
     |> result.map_error(fn(_err) {
       logging.log(logging.Warning, "Failed to retrieve moods from database.")
-      http_errors.InternalServerError500
+      http_codes.InternalServerError500
     }),
   )
   let json =
@@ -113,10 +111,7 @@ pub fn get_all_default_mood() -> Result(Response, http_errors.HttpErrorCode) {
   )
 }
 
-pub fn get_all_default_expectations() -> Result(
-  Response,
-  http_errors.HttpErrorCode,
-) {
+pub fn get_all_default_expectations() -> Result(Response, http_codes.HttpCode) {
   use expectations: List(models.Expectation) <- result.try(
     db_con.use_default_connection()
     |> sqlight_adapter.get_all_default_expectations()
@@ -125,7 +120,7 @@ pub fn get_all_default_expectations() -> Result(
         logging.Warning,
         "Failed to retrieve expectations from database.",
       )
-      http_errors.InternalServerError500
+      http_codes.InternalServerError500
     }),
   )
   let json: String =
@@ -152,10 +147,7 @@ pub fn get_all_default_expectations() -> Result(
   )
 }
 
-pub fn get_all_default_strengths() -> Result(
-  Response,
-  http_errors.HttpErrorCode,
-) {
+pub fn get_all_default_strengths() -> Result(Response, http_codes.HttpCode) {
   use strengths: List(models.Strength) <- result.try(
     db_con.use_default_connection()
     |> sqlight_adapter.get_all_default_strengths()
@@ -164,7 +156,7 @@ pub fn get_all_default_strengths() -> Result(
         logging.Warning,
         "Failed to retrieve strengths from database.",
       )
-      http_errors.InternalServerError500
+      http_codes.InternalServerError500
     }),
   )
   let json: String =
@@ -191,10 +183,7 @@ pub fn get_all_default_strengths() -> Result(
   )
 }
 
-pub fn get_all_default_impressions() -> Result(
-  Response,
-  http_errors.HttpErrorCode,
-) {
+pub fn get_all_default_impressions() -> Result(Response, http_codes.HttpCode) {
   use impressions: List(models.Impression) <- result.try(
     db_con.use_default_connection()
     |> sqlight_adapter.get_all_default_impressions()
@@ -203,7 +192,7 @@ pub fn get_all_default_impressions() -> Result(
         logging.Warning,
         "Failed to retrieve impressions from database.",
       )
-      http_errors.InternalServerError500
+      http_codes.InternalServerError500
     }),
   )
   let json: String =
@@ -236,10 +225,7 @@ pub fn get_all_default_impressions() -> Result(
   )
 }
 
-pub fn get_all_default_annoyances() -> Result(
-  Response,
-  http_errors.HttpErrorCode,
-) {
+pub fn get_all_default_annoyances() -> Result(Response, http_codes.HttpCode) {
   use annoyances: List(models.Annoyance) <- result.try(
     db_con.use_default_connection()
     |> sqlight_adapter.get_all_default_annoyances()
@@ -248,7 +234,7 @@ pub fn get_all_default_annoyances() -> Result(
         logging.Warning,
         "Failed to retrieve annoyances from database.",
       )
-      http_errors.InternalServerError500
+      http_codes.InternalServerError500
     }),
   )
   let json: String =
@@ -275,16 +261,13 @@ pub fn get_all_default_annoyances() -> Result(
   )
 }
 
-pub fn get_all_default_show_setting() -> Result(
-  Response,
-  http_errors.HttpErrorCode,
-) {
+pub fn get_all_default_show_setting() -> Result(Response, http_codes.HttpCode) {
   use settings: List(models.Setting) <- result.try(
     db_con.use_default_connection()
     |> sqlight_adapter.get_all_default_show_setting()
     |> result.map_error(fn(_err) {
       logging.log(logging.Warning, "Failed to retrieve settings from database.")
-      http_errors.InternalServerError500
+      http_codes.InternalServerError500
     }),
   )
   let json: String =

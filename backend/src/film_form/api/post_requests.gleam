@@ -1,20 +1,20 @@
-import errors/http_errors
 import ewe.{type Request, type Response}
 import gleam/bit_array
 import gleam/dynamic/decode
 import gleam/http/response
 import gleam/result
 import logging
+import utils/http_codes
 
 pub fn add_new_tv_show(
   req: Request,
-) -> Result(response.Response(ewe.ResponseBody), http_errors.HttpErrorCode) {
+) -> Result(response.Response(ewe.ResponseBody), http_codes.HttpCode) {
   use raw_json <- result.try(
     req.body.buffer.data
     |> bit_array.to_string
     |> result.map_error(fn(_err) {
       logging.log(logging.Warning, "Failed to convert bit array to string.")
-      http_errors.InternalServerError500
+      http_codes.InternalServerError500
     }),
   )
 
