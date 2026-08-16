@@ -146,12 +146,12 @@ pub type FormatTvShowChain {
   FormatTvShowChain(id: Int, tv_show_id: Int, format_id: Int)
 }
 
-pub type StrengthsUserAccountChain {
-  StrengthsUserAccountChain(id: Int, user_account_id: Int, strength_id: Int)
+pub type StrengthsTvShowChain {
+  StrengthsTvShowChain(id: Int, user_account_id: Int, strength_id: Int)
 }
 
-pub type AnnoyancesUserAccountChain {
-  AnnoyancesUserAccountChain(id: Int, user_account_id: Int, annoyance_id: Int)
+pub type AnnoyancesTvShowChain {
+  AnnoyancesTvShowChain(id: Int, user_account_id: Int, annoyance_id: Int)
 }
 
 pub type PacingTvShowChain {
@@ -186,12 +186,12 @@ pub type FormatPostInsightChain {
   FormatPostInsightChain(id: Int, post_insight_id: Int, format_id: Int)
 }
 
-pub type StrengthsUserAccountChain {
-  StrengthsUserAccountChain(id: Int, user_account_id: Int, strength_id: Int)
+pub type StrengthsPostInsightChain {
+  StrengthsPostInsightChain(id: Int, user_account_id: Int, strengthsid: Int)
 }
 
-pub type AnnoyancesUserAccountChain {
-  AnnoyancesUserAccountChain(id: Int, user_account_id: Int, annoyance_id: Int)
+pub type AnnoyancesPostInsightChain {
+  AnnoyancesPostInsightChain(id: Int, user_account_id: Int, annoyance_id: Int)
 }
 
 pub type PacingPostInsightChain {

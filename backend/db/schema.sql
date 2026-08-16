@@ -137,130 +137,131 @@ originality_rate    INTEGER CHECK (originality_rate BETWEEN 1 AND 10)
 
 -- ====== CHAIN TABLES =====
 
--- === tv show chins ===
---
--- Create mood_tv_show_chain
+-- === tv show chains ===
+
+
 CREATE TABLE IF NOT EXISTS mood_tv_show_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     tv_show_id INTEGER REFERENCES tv_show(id) NOT NULL,
     mood_id INTEGER REFERENCES mood(id) NOT NULL
 );
 
--- Create genre_tv_show_chain
+
 CREATE TABLE IF NOT EXISTS genre_tv_show_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     tv_show_id INTEGER REFERENCES tv_show(id) NOT NULL,
     genre_id INTEGER REFERENCES genre(id) NOT NULL
 );
 
--- Create expectations_tv_show_chain
+
 CREATE TABLE IF NOT EXISTS expectations_tv_show_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     tv_show_id INTEGER REFERENCES tv_show(id) NOT NULL,
     expectation_id INTEGER REFERENCES expectations(id) NOT NULL
 );
 
--- Create impressions_tv_show_chain
+
 CREATE TABLE IF NOT EXISTS impressions_tv_show_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     tv_show_id INTEGER REFERENCES tv_show(id) NOT NULL,
     impression_id INTEGER REFERENCES impressions(id) NOT NULL
 );
 
--- Create format_tv_show_chain
+
 CREATE TABLE IF NOT EXISTS format_tv_show_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     tv_show_id INTEGER REFERENCES tv_show(id) NOT NULL,
     format_id INTEGER REFERENCES format(id) NOT NULL
 );
 
--- Create strengths_user_account_chain
-CREATE TABLE IF NOT EXISTS strengths_user_account_chain (
+
+CREATE TABLE IF NOT EXISTS strengths_tv_show_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_account_id INTEGER REFERENCES user_account(id) NOT NULL,
+    user_account_id INTEGER REFERENCES tv_show(id) NOT NULL,
     strength_id INTEGER REFERENCES strengths(id) NOT NULL
 );
 
--- Create annoyances_user_account_chain
-CREATE TABLE IF NOT EXISTS annoyances_user_account_chain (
+
+CREATE TABLE IF NOT EXISTS annoyances_tv_show_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_account_id INTEGER REFERENCES user_account(id) NOT NULL,
+    user_account_id INTEGER REFERENCES tv_show(id) NOT NULL,
     annoyance_id INTEGER REFERENCES annoyances(id) NOT NULL
 );
 
--- Create pacing_tv_show_chain
+
 CREATE TABLE IF NOT EXISTS pacing_tv_show_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     pacing_id INTEGER REFERENCES pacing(id) NOT NULL,
     tv_show_id INTEGER REFERENCES tv_show(id) NOT NULL
 );
 
--- Create setting_tv_show_chain
+
 CREATE TABLE IF NOT EXISTS setting_tv_show_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     tv_show_id INTEGER REFERENCES tv_show(id) NOT NULL,
     setting_id INTEGER REFERENCES setting(id) NOT NULL
 );
 
--- post insight chains 
---
--- Create mood_post_insight_chain
+
+-- post insight chains
+
+
 CREATE TABLE IF NOT EXISTS mood_post_insight_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     post_insight_id INTEGER REFERENCES post_insight(id) NOT NULL,
     mood_id INTEGER REFERENCES mood(id) NOT NULL
 );
 
--- Create genre_post_insight_chain
+
 CREATE TABLE IF NOT EXISTS genre_post_insight_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     post_insight_id INTEGER REFERENCES post_insight(id) NOT NULL,
     genre_id INTEGER REFERENCES genre(id) NOT NULL
 );
 
--- Create expectations_post_insight_chain
+
 CREATE TABLE IF NOT EXISTS expectations_post_insight_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     post_insight_id INTEGER REFERENCES post_insight(id) NOT NULL,
     expectation_id INTEGER REFERENCES expectations(id) NOT NULL
 );
 
--- Create impressions_post_insight_chain
+
 CREATE TABLE IF NOT EXISTS impressions_post_insight_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     post_insight_id INTEGER REFERENCES post_insight(id) NOT NULL,
     impression_id INTEGER REFERENCES impressions(id) NOT NULL
 );
 
--- Create format_post_insight_chain
+
 CREATE TABLE IF NOT EXISTS format_post_insight_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     post_insight_id INTEGER REFERENCES post_insight(id) NOT NULL,
     format_id INTEGER REFERENCES format(id) NOT NULL
 );
 
--- Create strengths_user_account_chain
-CREATE TABLE IF NOT EXISTS strengths_user_account_chain (
+
+CREATE TABLE IF NOT EXISTS strengths_post_insight_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_account_id INTEGER REFERENCES user_account(id) NOT NULL,
-    strength_id INTEGER REFERENCES strengths(id) NOT NULL
+    user_account_id INTEGER REFERENCES post_insight(id) NOT NULL,
+    strengthsid INTEGER REFERENCES annoyances(id) NOT NULL
 );
 
--- Create annoyances_user_account_chain
-CREATE TABLE IF NOT EXISTS annoyances_user_account_chain (
+
+CREATE TABLE IF NOT EXISTS annoyances_post_insight_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_account_id INTEGER REFERENCES user_account(id) NOT NULL,
+    user_account_id INTEGER REFERENCES post_insight(id) NOT NULL,
     annoyance_id INTEGER REFERENCES annoyances(id) NOT NULL
 );
 
--- Create pacing_post_insight_chain
+
 CREATE TABLE IF NOT EXISTS pacing_post_insight_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     pacing_id INTEGER REFERENCES pacing(id) NOT NULL,
     post_insight_id INTEGER REFERENCES post_insight(id) NOT NULL
 );
 
--- Create setting_post_insight_chain
+
 CREATE TABLE IF NOT EXISTS setting_post_insight_chain (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     post_insight_id INTEGER REFERENCES post_insight(id) NOT NULL,
