@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { Annoyances, Expectations, Format, Genre, Impressions, Mood, Pacing, Setting, Strengths, TvShow } from '../types'
+import type { Impressions, Pacing, TvShow } from '../types'
 
 export interface TvShowState extends TvShow {
 
@@ -19,14 +19,14 @@ export interface TvShowState extends TvShow {
   set_moral_depth_rate: (moral_depth_rate: number | null) => void
   set_originality_rate: (originality_rate: number | null) => void
   set_pacing: (pacing: Pacing) => void
-  set_format: (format: Format) => void
-  set_genre: (genre: Genre[]) => void
-  set_expectations: (expectations: Expectations[]) => void
-  set_mood: (mood: Mood[]) => void
+  set_format: (format: string | null) => void
+  set_genre: (genre: string[]) => void
+  set_expectations: (expectations: string[]) => void
+  set_mood: (mood: string[]) => void
   set_impressions: (impressions: Impressions[]) => void
-  set_annoyances: (annoyances: Annoyances[]) => void
-  set_strengths: (strengths: Strengths[]) => void
-  set_setting: (setting: Setting[]) => void
+  set_annoyances: (annoyances: string[]) => void
+  set_strengths: (strengths: string[]) => void
+  set_setting: (setting: string[]) => void
 }
 
 export const useTvShowState = create<TvShowState>()((set) => ({
@@ -47,7 +47,7 @@ export const useTvShowState = create<TvShowState>()((set) => ({
   atmosphere_rate: null,
   moral_depth_rate: null,
   originality_rate: null,
-  format: { id: -1, language_code: "", name: "" },
+  format: null,
   pacing: { id: -1, beginning: -1, middle: -1, ending: -1 },
   genre: [],
   expectations: [],
