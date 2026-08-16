@@ -1,72 +1,66 @@
 
-interface Genre {
+export interface Genre {
   id: number,
   name: string,
   language_code: string,
 }
 
 
-interface Mood {
+export interface Mood {
   id: number,
   name: string,
   language_code: string,
 }
 
 
-interface Expectations {
+export interface Expectations {
   id: number,
   state: string,
   language_code: string,
 }
 
 
-interface Impressions {
+export interface Impressions {
   id: number,
   state: string,
   order_number: number,
   language_code: string,
 }
 
-interface Format {
+export interface Format {
   id: number,
   name: string,
   language_code: string,
 }
 
-interface Format {
-  id: number,
-  name: string,
-  language_code: string,
-}
-
-interface Strengths {
+export interface Strengths {
   id: number,
   name: string,
   language_code: string,
 }
 
 
-interface Annoyances {
+export interface Annoyances {
   id: number,
   name: string,
   language_code: string,
 }
 
-interface Setting {
+export interface Setting {
   id: number,
   name: string,
   language_code: string,
 }
 
-interface Pacing {
+export interface Pacing {
   id: number,
-  beginnin: number,
+  beginning: number,
   ending: number,
   middle: number,
 }
 
 
-// interface UserAccount {
+//export  interface UserAccount {
 //   id: number,
 //   name: string,
 //   language_code: string,
@@ -75,7 +69,7 @@ interface Pacing {
 // }
 
 
-interface TvShow {
+export interface TvShow {
   id: number
   title: string
   year: number | null
@@ -91,9 +85,18 @@ interface TvShow {
   atmosphere_rate: number | null
   moral_depth_rate: number | null
   originality_rate: number | null
+  format: Format,
+  pacing: Pacing,
+  genre: Genre[],
+  expectations: Expectations[],
+  mood: Mood[],
+  impressions: Impressions[],
+  annoyances: Annoyances[],
+  strengths: Strengths[],
+  setting: Setting[],
 }
 
-interface PostInsight {
+export interface PostInsight {
   id: number
   rewatched: boolean
   forgettability: number
@@ -111,4 +114,14 @@ interface PostInsight {
   atmosphere_rate: number | null
   moral_depth_rate: number | null
   originality_rate: number | null
+  format: Format,
+  pacing: Pacing,
+  genre: Genre[],
+  expectations: Expectations[],
+  mood: Mood[],
+  impressions: Impressions[],
+  annoyances: Annoyances[],
+  strengths: Strengths[],
+  setting: Setting[],
 }
+

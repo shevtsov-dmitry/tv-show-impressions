@@ -13,31 +13,17 @@ import {
   Title,
 } from '@mantine/core'
 import { useEffect, useState } from 'react'
+import { useTvShowState } from '../state/tvShowState'
+import { fetchAllGenres } from '../api/requests'
 
 
 const AddTvShow = () => {
 
-  const LANGUAGE_CODE = "ru"
-  const API_URL = import.meta.env.VITE_API_URL
-
-  interface Genre {
-    id: number,
-    name: string,
-    language_code: string,
-  }
-
-  const fetchGenres = async () =>
-    fetch(API_URL + "/genre/all")
-      .then(resp => resp.json() as Promise<Genre[]>)
-      .then(arrayGenres => setGenres(arrayGenres.filter(genre => genre.language_code == LANGUAGE_CODE)))
-
-  const [genres, setGenres] = useState<Genre[]>([])
   const [selectedGenresIds
     , setSelectedGenresIds] = useState<number[]>([])
 
   useEffect(() => {
-
-    fetchGenres()
+    fetchAllGenres()
   }, [])
 
 
@@ -65,11 +51,11 @@ const AddTvShow = () => {
           <Checkbox />
         </Box>
         <Box>
-          <Text>genres</Text>
           <MultiSelect
-            label="select genres"
-            data={genres.map((v, _idx) =>
-              ({ value: `${v.id}`, label: v.name })
+            label="genres"
+            placeholder=''
+            data={useTvShowState(state => state.genre).map((genre, _idx) =>
+              ({ value: `${genre.id}`, label: genre.name })
             )}
             value={selectedGenresIds.map(String)}
             onChange={values => { setSelectedGenresIds(values.map(Number)) }}
