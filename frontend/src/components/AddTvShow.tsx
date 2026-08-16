@@ -26,18 +26,20 @@ const AddTvShow = () => {
     language_code: string,
   }
 
+  const fetchGenres = async () =>
+    fetch(API_URL + "/genre/all")
+      .then(resp => resp.json() as Promise<Genre[]>)
+      .then(arrayGenres => setGenres(arrayGenres.filter(genre => genre.language_code == LANGUAGE_CODE)))
+
   const [genres, setGenres] = useState<Genre[]>([])
   const [selectedGenresIds
     , setSelectedGenresIds] = useState<number[]>([])
 
   useEffect(() => {
-    const fetchGenres = async () =>
-      fetch(API_URL + "/genre/all")
-        .then(resp => resp.json() as Promise<Genre[]>)
-        .then(arrayGenres => setGenres(arrayGenres.filter(genre => genre.language_code == LANGUAGE_CODE)))
 
     fetchGenres()
   }, [])
+
 
   return (
     <Container>

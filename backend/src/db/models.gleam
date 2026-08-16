@@ -87,12 +87,6 @@ pub type PostInsight {
     extended_opinion: Option(String),
     moral_understanding: Option(String),
     finished: Option(Int),
-    expectations_id: Option(Int),
-    genres_id: Option(Int),
-    mood_id: Option(Int),
-    strengths_id: Option(Int),
-    annoyances_id: Option(Int),
-    impressions_id: Option(Int),
     visual_rate: Option(Int),
     dialogues_rate: Option(Int),
     characters_rate: Option(Int),
@@ -119,19 +113,9 @@ pub type TvShow {
     year: Int,
     title_in_latin: Option(String),
     country: Option(String),
-    setting: Option(String),
-    format_id: Option(Int),
-    post_insight_id: Option(Int),
-    user_account_id: Option(Int),
     extended_opinion: Option(String),
     moral_understanding: Option(String),
     finished: Option(Int),
-    expectations_id: Option(Int),
-    genres_id: Option(Int),
-    mood_id: Option(Int),
-    strengths_id: Option(Int),
-    annoyances_id: Option(Int),
-    impressions_id: Option(Int),
     visual_rate: Option(Int),
     dialogues_rate: Option(Int),
     characters_rate: Option(Int),
@@ -140,6 +124,82 @@ pub type TvShow {
     moral_depth_rate: Option(Int),
     originality_rate: Option(Int),
   )
+}
+
+pub type MoodTvShowChain {
+  MoodTvShowChain(id: Int, tv_show_id: Int, mood_id: Int)
+}
+
+pub type GenreTvShowChain {
+  GenreTvShowChain(id: Int, tv_show_id: Int, genre_id: Int)
+}
+
+pub type ExpectationsTvShowChain {
+  ExpectationsTvShowChain(id: Int, tv_show_id: Int, expectation_id: Int)
+}
+
+pub type ImpressionsTvShowChain {
+  ImpressionsTvShowChain(id: Int, tv_show_id: Int, impression_id: Int)
+}
+
+pub type FormatTvShowChain {
+  FormatTvShowChain(id: Int, tv_show_id: Int, format_id: Int)
+}
+
+pub type StrengthsUserAccountChain {
+  StrengthsUserAccountChain(id: Int, user_account_id: Int, strength_id: Int)
+}
+
+pub type AnnoyancesUserAccountChain {
+  AnnoyancesUserAccountChain(id: Int, user_account_id: Int, annoyance_id: Int)
+}
+
+pub type PacingTvShowChain {
+  PacingTvShowChain(id: Int, pacing_id: Int, tv_show_id: Int)
+}
+
+pub type SettingTvShowChain {
+  SettingTvShowChain(id: Int, tv_show_id: Int, setting_id: Int)
+}
+
+pub type MoodPostInsightChain {
+  MoodPostInsightChain(id: Int, post_insight_id: Int, mood_id: Int)
+}
+
+pub type GenrePostInsightChain {
+  GenrePostInsightChain(id: Int, post_insight_id: Int, genre_id: Int)
+}
+
+pub type ExpectationsPostInsightChain {
+  ExpectationsPostInsightChain(
+    id: Int,
+    post_insight_id: Int,
+    expectation_id: Int,
+  )
+}
+
+pub type ImpressionsPostInsightChain {
+  ImpressionsPostInsightChain(id: Int, post_insight_id: Int, impression_id: Int)
+}
+
+pub type FormatPostInsightChain {
+  FormatPostInsightChain(id: Int, post_insight_id: Int, format_id: Int)
+}
+
+pub type StrengthsUserAccountChain {
+  StrengthsUserAccountChain(id: Int, user_account_id: Int, strength_id: Int)
+}
+
+pub type AnnoyancesUserAccountChain {
+  AnnoyancesUserAccountChain(id: Int, user_account_id: Int, annoyance_id: Int)
+}
+
+pub type PacingPostInsightChain {
+  PacingPostInsightChain(id: Int, pacing_id: Int, post_insight_id: Int)
+}
+
+pub type SettingPostInsightChain {
+  SettingPostInsightChain(id: Int, post_insight_id: Int, setting_id: Int)
 }
 
 pub type GetAllGenresRow =

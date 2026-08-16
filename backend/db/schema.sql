@@ -202,7 +202,6 @@ CREATE TABLE IF NOT EXISTS setting_tv_show_chain (
     setting_id INTEGER REFERENCES setting(id) NOT NULL
 );
 
-
 -- post insight chains 
 --
 -- Create mood_post_insight_chain
