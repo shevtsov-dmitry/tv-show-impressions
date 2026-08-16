@@ -26,16 +26,16 @@ pub fn route_requests(req: Request) -> response.Response(ewe.ResponseBody) {
   let http_response: Result(Response, http_errors.HttpErrorCode) = case
     main_route
   {
-    "tv-show" -> tv_show_routes(req.body, sub_path)
-    "genre" -> genre_routes(sub_path)
-    "format" -> format_routes(sub_path)
-    "mood" -> mood_route(sub_path)
-    "expectation" -> expectation_routes(sub_path)
-    "impression" -> impression_routes(sub_path)
-    "strength" -> strengths_routes(sub_path)
-    "annoyance" -> annoyances_routes(sub_path)
-    "setting" -> setting_routes(sub_path)
-    "user_account" -> user_account_routes(sub_path)
+    "tv-show" -> tv_show_routes(req, sub_path)
+    "genre" -> genre_routes(req, sub_path)
+    "format" -> format_routes(req, sub_path)
+    "mood" -> mood_route(req, sub_path)
+    "expectation" -> expectation_routes(req, sub_path)
+    "impression" -> impression_routes(req, sub_path)
+    "strength" -> strengths_routes(req, sub_path)
+    "annoyance" -> annoyances_routes(req, sub_path)
+    "setting" -> setting_routes(req, sub_path)
+    "user_account" -> user_account_routes(req, sub_path)
     _ -> Error(http_errors.NotFound404)
   }
 
@@ -70,7 +70,7 @@ fn verify_sub_path_exists(
 fn tv_show_routes(
   req: request.Request(ewe.Connection),
   sub_path: List(String),
-) -> Result(response.Response(ewe.ResponseBody), http_errors.HttpErrorCode) {
+) -> Result(Response, http_errors.HttpErrorCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
   case sub_path |> list.first |> result.unwrap("") {
     "add" -> {
@@ -81,6 +81,7 @@ fn tv_show_routes(
 }
 
 fn genre_routes(
+  req: Request,
   sub_path: List(String),
 ) -> Result(Response, http_errors.HttpErrorCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
@@ -93,6 +94,7 @@ fn genre_routes(
 }
 
 fn format_routes(
+  req: Request,
   sub_path: List(String),
 ) -> Result(Response, http_errors.HttpErrorCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
@@ -105,6 +107,7 @@ fn format_routes(
 }
 
 fn mood_route(
+  req: Request,
   sub_path: List(String),
 ) -> Result(Response, http_errors.HttpErrorCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
@@ -115,6 +118,7 @@ fn mood_route(
 }
 
 fn expectation_routes(
+  req: Request,
   sub_path: List(String),
 ) -> Result(Response, http_errors.HttpErrorCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
@@ -125,6 +129,7 @@ fn expectation_routes(
 }
 
 fn strengths_routes(
+  req: Request,
   sub_path: List(String),
 ) -> Result(Response, http_errors.HttpErrorCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
@@ -135,6 +140,7 @@ fn strengths_routes(
 }
 
 fn impression_routes(
+  req: Request,
   sub_path: List(String),
 ) -> Result(Response, http_errors.HttpErrorCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
@@ -145,6 +151,7 @@ fn impression_routes(
 }
 
 fn annoyances_routes(
+  req: Request,
   sub_path: List(String),
 ) -> Result(Response, http_errors.HttpErrorCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
@@ -155,6 +162,7 @@ fn annoyances_routes(
 }
 
 fn setting_routes(
+  req: Request,
   sub_path: List(String),
 ) -> Result(Response, http_errors.HttpErrorCode) {
   use sub_path <- result.try(verify_sub_path_exists(sub_path))
@@ -165,6 +173,7 @@ fn setting_routes(
 }
 
 fn user_account_routes(
+  req: Request,
   sub_path: List(String),
 ) -> Result(Response, http_errors.HttpErrorCode) {
   // TODO
