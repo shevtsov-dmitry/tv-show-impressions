@@ -1,9 +1,0 @@
-version: "2"
-sql:
-  - schema: "db/schema.sql"
-    queries: "db/query.sql"
-    engine: "sqlite"
-    gen:
-      gleam:
-        out: "src/db"
-        runtime: "native"
